@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { LogOut, Plus } from 'lucide-react';
+import { LogOut, Plus, Send, Clock, XCircle, Target } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { useJobSources } from '@/hooks/useJobSources';
@@ -100,25 +100,43 @@ const Index = () => {
       </header>
 
       <main className="container mx-auto px-4 py-6 space-y-6">
-        {/* Compact Stats */}
-        <section className="bg-card border border-border rounded-lg p-4">
-          <div className="grid grid-cols-4 gap-4">
-            <div>
-              <div className="text-sm text-muted-foreground">Applications Sent</div>
-              <div className="text-2xl font-bold text-success">{stats.totalSent}</div>
+        {/* Colored Stats Cards */}
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Applications Sent */}
+          <div className="bg-success/30 border border-success/40 rounded-2xl p-6 relative">
+            <div className="absolute top-6 right-6 p-3 bg-success rounded-full">
+              <Send className="h-5 w-5 text-success-foreground" />
             </div>
-            <div>
-              <div className="text-sm text-muted-foreground">Waiting Response</div>
-              <div className="text-2xl font-bold text-warning">{stats.totalWaiting}</div>
+            <div className="text-sm font-medium text-foreground mb-2">Applications Sent</div>
+            <div className="text-4xl font-bold text-foreground">{stats.totalSent}</div>
+          </div>
+
+          {/* Waiting Response */}
+          <div className="bg-warning/30 border border-warning/40 rounded-2xl p-6 relative">
+            <div className="absolute top-6 right-6 p-3 bg-warning rounded-full">
+              <Clock className="h-5 w-5 text-warning-foreground" />
             </div>
-            <div>
-              <div className="text-sm text-muted-foreground">Rejections</div>
-              <div className="text-2xl font-bold text-destructive">{stats.totalRejected}</div>
+            <div className="text-sm font-medium text-foreground mb-2">Waiting Response</div>
+            <div className="text-4xl font-bold text-foreground">{stats.totalWaiting}</div>
+          </div>
+
+          {/* Rejections */}
+          <div className="bg-destructive/30 border border-destructive/40 rounded-2xl p-6 relative">
+            <div className="absolute top-6 right-6 p-3 bg-destructive rounded-full">
+              <XCircle className="h-5 w-5 text-destructive-foreground" />
             </div>
-            <div>
-              <div className="text-sm text-muted-foreground">Weekly Goal</div>
-              <div className="text-2xl font-bold">{stats.totalSent} / {stats.weeklyGoal}</div>
+            <div className="text-sm font-medium text-foreground mb-2">Rejections</div>
+            <div className="text-4xl font-bold text-foreground">{stats.totalRejected}</div>
+          </div>
+
+          {/* Weekly Goal */}
+          <div className="bg-muted border border-border rounded-2xl p-6 relative">
+            <div className="absolute top-6 right-6 p-3 bg-foreground rounded-full">
+              <Target className="h-5 w-5 text-background" />
             </div>
+            <div className="text-sm font-medium text-foreground mb-2">Weekly Goal</div>
+            <div className="text-4xl font-bold text-foreground">{stats.totalSent}</div>
+            <div className="text-sm text-muted-foreground mt-1">/ {stats.weeklyGoal} applications</div>
           </div>
         </section>
 
