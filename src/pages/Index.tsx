@@ -80,21 +80,21 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen gradient-background">
       {/* Header */}
-      <header className="glass border-b border-border sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4">
+      <header className="bg-card/80 backdrop-blur-sm border-b border-border/50 sticky top-0 z-10">
+        <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 gradient-primary rounded-xl animate-glow">
-                <Briefcase className="h-6 w-6 text-background" />
+              <div className="p-3 bg-primary rounded-2xl shadow-sm">
+                <Briefcase className="h-6 w-6 text-primary-foreground" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold tracking-tight">Job Find Assistant</h1>
-                <p className="text-sm text-muted-foreground font-light">Track your job applications efficiently</p>
+                <p className="text-sm text-muted-foreground font-normal">Track your job applications efficiently</p>
               </div>
             </div>
-            <Button onClick={handleExportCSV} variant="outline" className="glass border-border/50 hover:bg-primary/10 transition-all">
+            <Button onClick={handleExportCSV} variant="outline" className="rounded-full border-border/50 hover:bg-accent transition-all shadow-sm">
               Export CSV
             </Button>
           </div>
@@ -130,11 +130,11 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold tracking-tight">Job Boards</h2>
-              <p className="text-sm text-muted-foreground font-light">
+              <p className="text-sm text-muted-foreground font-normal">
                 Manage your applications across different platforms
               </p>
             </div>
-            <Button variant="outline" className="gap-2 glass border-border/50 hover:bg-primary/10 transition-all">
+            <Button variant="outline" className="gap-2 rounded-full border-border/50 hover:bg-accent transition-all shadow-sm">
               <Plus className="h-4 w-4" />
               Add Platform
             </Button>
@@ -150,17 +150,17 @@ const Index = () => {
         </section>
 
         {/* Legend */}
-        <section className="flex items-center gap-6 text-sm text-muted-foreground border-t border-border/50 pt-6 font-light">
+        <section className="flex items-center gap-6 text-sm text-muted-foreground border-t border-border/50 pt-6 font-normal">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full gradient-success" />
+            <div className="w-3 h-3 rounded-full bg-success shadow-sm" />
             <span>Sent</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full gradient-warning" />
+            <div className="w-3 h-3 rounded-full bg-warning shadow-sm" />
             <span>Waiting</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full gradient-destructive" />
+            <div className="w-3 h-3 rounded-full bg-destructive shadow-sm" />
             <span>Rejected</span>
           </div>
         </section>

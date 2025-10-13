@@ -10,25 +10,32 @@ interface StatsCardProps {
 
 export const StatsCard = ({ title, value, icon: Icon, variant = 'default' }: StatsCardProps) => {
   const variantStyles = {
-    default: 'glass',
-    success: 'glass border-success/20',
-    warning: 'glass border-warning/20',
-    destructive: 'glass border-destructive/20',
+    default: 'card-stats',
+    success: 'card-success',
+    warning: 'card-warning',
+    destructive: 'card-destructive',
   };
 
   const iconContainerStyles = {
-    default: 'gradient-primary',
-    success: 'gradient-success',
-    warning: 'gradient-warning',
-    destructive: 'gradient-destructive',
+    default: 'bg-primary',
+    success: 'bg-success',
+    warning: 'bg-warning',
+    destructive: 'bg-destructive',
+  };
+
+  const iconTextStyles = {
+    default: 'text-primary-foreground',
+    success: 'text-success-foreground',
+    warning: 'text-warning-foreground',
+    destructive: 'text-destructive-foreground',
   };
 
   return (
-    <Card className={`${variantStyles[variant]} transition-all duration-300 hover:border-primary/30 group`}>
+    <Card className={`${variantStyles[variant]} border-border/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium tracking-tight">{title}</CardTitle>
-        <div className={`p-2 rounded-lg ${iconContainerStyles[variant]}`}>
-          <Icon className="h-4 w-4 text-background" />
+        <div className={`p-2.5 rounded-2xl shadow-sm ${iconContainerStyles[variant]}`}>
+          <Icon className={`h-4 w-4 ${iconTextStyles[variant]}`} />
         </div>
       </CardHeader>
       <CardContent>
