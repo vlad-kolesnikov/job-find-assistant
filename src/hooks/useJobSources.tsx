@@ -114,6 +114,52 @@ export const useJobSources = () => {
     }
   };
 
+  const addJobSource = async (name: string, baseUrl: string, filterQuery: string = '') => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('job_sources')
+        .insert({
+          user_id: user.id,
+          name,
+          base_url: baseUrl,
+          filter_query: filterQuery,
+          sent_count: 0,
+          rejected_count: 0,
+          waiting_count: 0,
+          notes: '',
+        });
+
+      if (error) throw error;
+
+      await fetchJobSources();
+      toast.success(`${name} added successfully`);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const deleteJobSource = async (id: string, name: string) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('job_sources')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      await fetchJobSources();
+      await updateStats();
+      toast.success(`${name} removed successfully`);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   const updateStats = async () => {
     if (!user) return;
 
@@ -152,5 +198,7 @@ export const useJobSources = () => {
     stats,
     loading,
     updateJobSource,
+    addJobSource,
+    deleteJobSource,
   };
 };

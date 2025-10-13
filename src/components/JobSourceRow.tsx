@@ -4,15 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, Plus, Minus, Clock, Edit2, Check, X } from 'lucide-react';
+import { ExternalLink, Plus, Minus, Clock, Edit2, Check, X, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface JobSourceRowProps {
   source: JobSource;
   onUpdate: (source: JobSource) => void;
+  onDelete: (id: string, name: string) => void;
 }
 
-export const JobSourceRow = ({ source, onUpdate }: JobSourceRowProps) => {
+export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) => {
   const [isEditingFilter, setIsEditingFilter] = useState(false);
   const [editedFilter, setEditedFilter] = useState(source.filterQuery);
 
@@ -167,6 +168,20 @@ export const JobSourceRow = ({ source, onUpdate }: JobSourceRowProps) => {
             className="min-h-[2.5rem] text-sm"
           />
         </div>
+
+        {/* Delete Button */}
+        <Button
+          size="icon"
+          variant="ghost"
+          className="text-destructive hover:text-destructive hover:bg-destructive/10"
+          onClick={() => {
+            if (confirm(`Are you sure you want to remove ${source.name}?`)) {
+              onDelete(source.id, source.name);
+            }
+          }}
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
       </div>
     </div>
   );
