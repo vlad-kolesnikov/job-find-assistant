@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Briefcase } from 'lucide-react';
+import { Briefcase, Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import GoogleIcon from '@/components/icons/GoogleIcon';
 
 const authSchema = z.object({
   email: z.string().trim().email({ message: "Invalid email address" }),
@@ -18,7 +19,8 @@ const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { signIn, signUp, user } = useAuth();
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const { signIn, signUp, signInWithGoogle, user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -112,6 +114,48 @@ const Auth = () => {
               disabled={isLoading}
             >
               {isLoading ? 'Loading...' : (isLogin ? 'Sign in' : 'Sign up')}
+            </Button>
+            <div className="relative py-2">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-card px-2 text-muted-foreground">or</span>
+              </div>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full rounded-lg"
+              disabled={isGoogleLoading}
+              onClick={() => {
+                if (isGoogleLoading) return;
+                setIsGoogleLoading(true);
+                signInWithGoogle()
+                  .then(({ error }) => {
+                    if (error) {
+                      toast.error(error.message);
+                      setIsGoogleLoading(false);
+                    }
+                    // On success, Supabase redirects; loading stops on return
+                  })
+                  .catch(() => {
+                    toast.error('Failed to start Google sign-in');
+                    setIsGoogleLoading(false);
+                  });
+              }}
+            >
+              {isGoogleLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Redirecting...
+                </>
+              ) : (
+                <>
+                  <GoogleIcon className="mr-2" />
+                  Continue with Google
+                </>
+              )}
             </Button>
             <div className="text-center text-sm">
               <button
