@@ -13,6 +13,7 @@ export interface JobSource {
   rejectedCount: number;
   waitingCount: number;
   notes: string;
+  sortOrder: number;
   created_at: string;
   updated_at: string;
 }
@@ -39,7 +40,7 @@ export const useJobSources = () => {
         .from('job_sources')
         .select('*')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+        .order('sort_order', { ascending: true });
 
       if (error) throw error;
 
@@ -53,6 +54,7 @@ export const useJobSources = () => {
         rejectedCount: item.rejected_count,
         waitingCount: item.waiting_count,
         notes: item.notes || '',
+        sortOrder: item.sort_order,
         created_at: item.created_at,
         updated_at: item.updated_at,
       }));
@@ -118,6 +120,16 @@ export const useJobSources = () => {
     if (!user) return;
 
     try {
+      // Get the max sort_order for the user
+      const { data: maxData } = await supabase
+        .from('job_sources')
+        .select('sort_order')
+        .eq('user_id', user.id)
+        .order('sort_order', { ascending: false })
+        .limit(1);
+
+      const nextSortOrder = maxData && maxData.length > 0 ? maxData[0].sort_order + 1 : 1;
+
       const { error } = await supabase
         .from('job_sources')
         .insert({
@@ -129,6 +141,7 @@ export const useJobSources = () => {
           rejected_count: 0,
           waiting_count: 0,
           notes: '',
+          sort_order: nextSortOrder,
         });
 
       if (error) throw error;
@@ -207,6 +220,44 @@ export const useJobSources = () => {
     }
   };
 
+  const reorderJobSources = async (sourceId: string, destinationId: string) => {
+    if (!user) return;
+
+    try {
+      const sourceIndex = jobSources.findIndex(s => s.id === sourceId);
+      const destIndex = jobSources.findIndex(s => s.id === destinationId);
+
+      if (sourceIndex === -1 || destIndex === -1) return;
+
+      // Reorder locally for instant feedback
+      const newSources = [...jobSources];
+      const [removed] = newSources.splice(sourceIndex, 1);
+      newSources.splice(destIndex, 0, removed);
+
+      // Update sort orders
+      const updates = newSources.map((source, index) => ({
+        id: source.id,
+        sort_order: index + 1,
+      }));
+
+      setJobSources(newSources);
+
+      // Update in database
+      for (const update of updates) {
+        await supabase
+          .from('job_sources')
+          .update({ sort_order: update.sort_order })
+          .eq('id', update.id)
+          .eq('user_id', user.id);
+      }
+
+      await fetchJobSources();
+    } catch (error: any) {
+      toast.error(error.message);
+      await fetchJobSources(); // Revert on error
+    }
+  };
+
   useEffect(() => {
     if (user) {
       fetchJobSources();
@@ -222,5 +273,6 @@ export const useJobSources = () => {
     addJobSource,
     deleteJobSource,
     updateWeeklyGoal,
+    reorderJobSources,
   };
 };

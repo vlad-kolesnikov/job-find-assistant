@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { ExternalLink, Plus, Minus, Clock, Edit2, Check, X, Trash2, RotateCcw } from 'lucide-react';
+import { ExternalLink, Plus, Minus, Clock, Edit2, Check, X, Trash2, RotateCcw, GripVertical } from 'lucide-react';
 import { toast } from 'sonner';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface JobSourceRowProps {
   source: JobSource;
@@ -22,6 +24,21 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
     baseUrl: source.baseUrl,
     filterQuery: source.filterQuery
   });
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: source.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
 
   const handleOpenEditDialog = () => {
     setEditedPlatform({
@@ -89,8 +106,21 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
 
   return (
     <>
-      <div className="bg-card border border-border p-4 rounded-lg">
+      <div 
+        ref={setNodeRef} 
+        style={style}
+        className="bg-card border border-border p-4 rounded-lg"
+      >
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+          {/* Drag Handle */}
+          <div 
+            {...attributes} 
+            {...listeners}
+            className="cursor-grab active:cursor-grabbing touch-none"
+          >
+            <GripVertical className="h-5 w-5 text-muted-foreground" />
+          </div>
+
           {/* Platform Name */}
           <div className="lg:w-32">
             <h3 className="font-semibold">{source.name}</h3>

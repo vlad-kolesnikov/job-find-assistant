@@ -54,6 +54,7 @@ export type Database = {
           notes: string | null
           rejected_count: number
           sent_count: number
+          sort_order: number
           updated_at: string
           user_id: string
           waiting_count: number
@@ -67,6 +68,7 @@ export type Database = {
           notes?: string | null
           rejected_count?: number
           sent_count?: number
+          sort_order?: number
           updated_at?: string
           user_id: string
           waiting_count?: number
@@ -80,6 +82,7 @@ export type Database = {
           notes?: string | null
           rejected_count?: number
           sent_count?: number
+          sort_order?: number
           updated_at?: string
           user_id?: string
           waiting_count?: number

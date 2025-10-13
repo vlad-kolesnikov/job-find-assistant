@@ -8,15 +8,24 @@ import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { useJobSources } from '@/hooks/useJobSources';
 import { JobSourceRow } from '@/components/JobSourceRow';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
 const Index = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading, signOut } = useAuth();
-  const { jobSources, stats, loading: dataLoading, updateJobSource, addJobSource, deleteJobSource, updateWeeklyGoal } = useJobSources();
+  const { jobSources, stats, loading: dataLoading, updateJobSource, addJobSource, deleteJobSource, updateWeeklyGoal, reorderJobSources } = useJobSources();
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showGoalDialog, setShowGoalDialog] = useState(false);
   const [newPlatform, setNewPlatform] = useState({ name: '', baseUrl: '', filterQuery: '' });
   const [newGoal, setNewGoal] = useState('');
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -53,6 +62,14 @@ const Index = () => {
     await updateWeeklyGoal(goalNum);
     setShowGoalDialog(false);
     setNewGoal('');
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      reorderJobSources(active.id as string, over.id as string);
+    }
   };
 
   const handleExportCSV = () => {
@@ -177,14 +194,22 @@ const Index = () => {
           </div>
 
           <div className="space-y-2">
-            {jobSources.map((source) => (
-              <JobSourceRow 
-                key={source.id} 
-                source={source} 
-                onUpdate={updateJobSource}
-                onDelete={deleteJobSource}
-              />
-            ))}
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext items={jobSources.map(s => s.id)} strategy={verticalListSortingStrategy}>
+                {jobSources.map((source) => (
+                  <JobSourceRow 
+                    key={source.id} 
+                    source={source} 
+                    onUpdate={updateJobSource}
+                    onDelete={deleteJobSource}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
             {jobSources.length === 0 && (
               <div className="text-center py-8 text-muted-foreground bg-card border border-border rounded-lg">
                 No job platforms yet.
