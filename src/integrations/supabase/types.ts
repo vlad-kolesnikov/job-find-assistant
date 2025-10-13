@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           id: string
           last_updated: string
+          monthly_goal: number
           total_rejected: number
           total_sent: number
           total_waiting: number
@@ -27,6 +28,7 @@ export type Database = {
         Insert: {
           id?: string
           last_updated?: string
+          monthly_goal?: number
           total_rejected?: number
           total_sent?: number
           total_waiting?: number
@@ -36,6 +38,7 @@ export type Database = {
         Update: {
           id?: string
           last_updated?: string
+          monthly_goal?: number
           total_rejected?: number
           total_sent?: number
           total_waiting?: number

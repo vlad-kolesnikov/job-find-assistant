@@ -23,6 +23,7 @@ export interface ApplicationStats {
   totalWaiting: number;
   totalRejected: number;
   weeklyGoal: number;
+  monthlyGoal: number;
   lastUpdated: Date;
 }
 
@@ -82,6 +83,7 @@ export const useJobSources = () => {
         totalWaiting: data.total_waiting,
         totalRejected: data.total_rejected,
         weeklyGoal: data.weekly_goal,
+        monthlyGoal: data.monthly_goal,
         lastUpdated: new Date(data.last_updated),
       });
     } catch (error: any) {
@@ -194,6 +196,27 @@ export const useJobSources = () => {
     }
   };
 
+  const updateMonthlyGoal = async (newGoal: number) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('application_stats')
+        .update({
+          monthly_goal: newGoal,
+          last_updated: new Date().toISOString(),
+        })
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      await fetchStats();
+      toast.success('Monthly goal updated');
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   const updateStats = async () => {
     if (!user) return;
 
@@ -273,6 +296,7 @@ export const useJobSources = () => {
     addJobSource,
     deleteJobSource,
     updateWeeklyGoal,
+    updateMonthlyGoal,
     reorderJobSources,
   };
 };
