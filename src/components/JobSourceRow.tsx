@@ -86,73 +86,82 @@ export const JobSourceRow = ({ source, onUpdate }: JobSourceRowProps) => {
         </Button>
 
         {/* Sent */}
-        <div className="flex items-center gap-1 bg-success-light rounded-lg px-2 py-1">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6"
-            onClick={() => handleDecrement('sentCount')}
-          >
-            <Minus className="h-3 w-3" />
-          </Button>
-          <Badge variant="success" className="min-w-[2rem] justify-center">
-            {source.sentCount}
-          </Badge>
-          <Button
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6"
-            onClick={() => handleIncrement('sentCount')}
-          >
-            <Plus className="h-3 w-3" />
-          </Button>
+        <div className="flex flex-col gap-1">
+          <span className="text-xs text-muted-foreground text-center">Applications Sent</span>
+          <div className="flex items-center gap-1 bg-success-light rounded-lg px-2 py-1">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-6 w-6"
+              onClick={() => handleDecrement('sentCount')}
+            >
+              <Minus className="h-3 w-3" />
+            </Button>
+            <Badge variant="success" className="min-w-[2rem] justify-center">
+              {source.sentCount}
+            </Badge>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-6 w-6"
+              onClick={() => handleIncrement('sentCount')}
+            >
+              <Plus className="h-3 w-3" />
+            </Button>
+          </div>
         </div>
 
         {/* Waiting */}
-        <div className="flex items-center gap-1 bg-warning-light rounded-lg px-2 py-1">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6"
-            onClick={() => handleDecrement('waitingCount')}
-          >
-            <Minus className="h-3 w-3" />
-          </Button>
-          <Badge variant="warning" className="min-w-[2rem] justify-center">
-            <Clock className="h-3 w-3 mr-1" />
-            {source.waitingCount}
-          </Badge>
-          <Button
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6"
-            onClick={() => handleIncrement('waitingCount')}
-          >
-            <Plus className="h-3 w-3" />
-          </Button>
+        <div className="flex flex-col gap-1">
+          <span className="text-xs text-muted-foreground text-center">Waiting Response</span>
+          <div className="flex items-center gap-1 bg-warning-light rounded-lg px-2 py-1">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-6 w-6"
+              onClick={() => handleDecrement('waitingCount')}
+            >
+              <Minus className="h-3 w-3" />
+            </Button>
+            <Badge variant="warning" className="min-w-[2rem] justify-center">
+              <Clock className="h-3 w-3 mr-1" />
+              {source.waitingCount}
+            </Badge>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-6 w-6"
+              onClick={() => handleIncrement('waitingCount')}
+            >
+              <Plus className="h-3 w-3" />
+            </Button>
+          </div>
         </div>
 
         {/* Rejected */}
-        <div className="flex items-center gap-1 bg-destructive-light rounded-lg px-2 py-1">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6"
-            onClick={() => handleDecrement('rejectedCount')}
-          >
-            <Minus className="h-3 w-3" />
-          </Button>
-          <Badge variant="destructive" className="min-w-[2rem] justify-center">
-            {source.rejectedCount}
-          </Badge>
-          <Button
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6"
-            onClick={() => handleIncrement('rejectedCount')}
-          >
-            <Plus className="h-3 w-3" />
-          </Button>
+        <div className="flex flex-col gap-1">
+          <span className="text-xs text-muted-foreground text-center">Rejections</span>
+          <div className="flex items-center gap-1 bg-destructive-light rounded-lg px-2 py-1">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-6 w-6"
+              onClick={() => handleDecrement('rejectedCount')}
+            >
+              <Minus className="h-3 w-3" />
+            </Button>
+            <Badge variant="destructive" className="min-w-[2rem] justify-center">
+              {source.rejectedCount}
+            </Badge>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-6 w-6"
+              onClick={() => handleIncrement('rejectedCount')}
+            >
+              <Plus className="h-3 w-3" />
+            </Button>
+          </div>
         </div>
       </div>
 
