@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { LogOut, Plus, Send, Clock, XCircle, Target } from 'lucide-react';
+import { LogOut, Plus, Send, Clock, XCircle, Target, Edit2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { useJobSources } from '@/hooks/useJobSources';
@@ -12,9 +12,11 @@ import { JobSourceRow } from '@/components/JobSourceRow';
 const Index = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading, signOut } = useAuth();
-  const { jobSources, stats, loading: dataLoading, updateJobSource, addJobSource, deleteJobSource } = useJobSources();
+  const { jobSources, stats, loading: dataLoading, updateJobSource, addJobSource, deleteJobSource, updateWeeklyGoal } = useJobSources();
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showGoalDialog, setShowGoalDialog] = useState(false);
   const [newPlatform, setNewPlatform] = useState({ name: '', baseUrl: '', filterQuery: '' });
+  const [newGoal, setNewGoal] = useState('');
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -40,6 +42,17 @@ const Index = () => {
     await addJobSource(newPlatform.name, newPlatform.baseUrl, newPlatform.filterQuery);
     setShowAddDialog(false);
     setNewPlatform({ name: '', baseUrl: '', filterQuery: '' });
+  };
+
+  const handleUpdateGoal = async () => {
+    const goalNum = parseInt(newGoal);
+    if (isNaN(goalNum) || goalNum < 1) {
+      toast.error('Please enter a valid goal number');
+      return;
+    }
+    await updateWeeklyGoal(goalNum);
+    setShowGoalDialog(false);
+    setNewGoal('');
   };
 
   const handleExportCSV = () => {
@@ -131,8 +144,21 @@ const Index = () => {
 
           {/* Weekly Goal */}
           <div className="bg-muted border border-border rounded-2xl p-6 relative">
-            <div className="absolute top-6 right-6 p-3 bg-foreground rounded-full">
-              <Target className="h-5 w-5 text-background" />
+            <div className="absolute top-6 right-6 flex items-center gap-2">
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 hover:bg-foreground/10"
+                onClick={() => {
+                  setNewGoal(stats.weeklyGoal.toString());
+                  setShowGoalDialog(true);
+                }}
+              >
+                <Edit2 className="h-4 w-4" />
+              </Button>
+              <div className="p-3 bg-foreground rounded-full">
+                <Target className="h-5 w-5 text-background" />
+              </div>
             </div>
             <div className="text-sm font-medium text-foreground mb-2">Weekly Goal</div>
             <div className="text-4xl font-bold text-foreground">{stats.totalSent}</div>
@@ -206,6 +232,35 @@ const Index = () => {
             </Button>
             <Button onClick={handleAddPlatform}>
               Add Platform
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Weekly Goal Dialog */}
+      <Dialog open={showGoalDialog} onOpenChange={setShowGoalDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Update Weekly Goal</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Weekly Goal (applications)</label>
+              <Input
+                type="number"
+                min="1"
+                value={newGoal}
+                onChange={(e) => setNewGoal(e.target.value)}
+                placeholder="e.g. 10"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowGoalDialog(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleUpdateGoal}>
+              Update Goal
             </Button>
           </DialogFooter>
         </DialogContent>

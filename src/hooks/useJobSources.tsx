@@ -160,6 +160,27 @@ export const useJobSources = () => {
     }
   };
 
+  const updateWeeklyGoal = async (newGoal: number) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('application_stats')
+        .update({
+          weekly_goal: newGoal,
+          last_updated: new Date().toISOString(),
+        })
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      await fetchStats();
+      toast.success('Weekly goal updated');
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   const updateStats = async () => {
     if (!user) return;
 
@@ -200,5 +221,6 @@ export const useJobSources = () => {
     updateJobSource,
     addJobSource,
     deleteJobSource,
+    updateWeeklyGoal,
   };
 };
