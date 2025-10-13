@@ -80,30 +80,30 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen gradient-background">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-card/80 backdrop-blur-sm border-b border-border/50 sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-6">
+      <header className="bg-card border-b border-border sticky top-0 z-10">
+        <div className="container mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-primary rounded-2xl shadow-sm">
-                <Briefcase className="h-6 w-6 text-primary-foreground" />
+              <div className="p-2.5 bg-primary rounded-xl">
+                <Briefcase className="h-5 w-5 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold tracking-tight">Job Find Assistant</h1>
-                <p className="text-sm text-muted-foreground font-normal">Track your job applications efficiently</p>
+                <h1 className="text-xl font-semibold tracking-tight">Job Find Assistant</h1>
+                <p className="text-sm text-muted-foreground">Track your job applications</p>
               </div>
             </div>
-            <Button onClick={handleExportCSV} variant="outline" className="rounded-full border-border/50 hover:bg-accent transition-all shadow-sm">
+            <Button onClick={handleExportCSV} variant="outline" className="rounded-lg border-border hover:bg-muted transition-all">
               Export CSV
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 space-y-8">
+      <main className="container mx-auto px-6 py-6 space-y-6">
         {/* Stats Dashboard */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 animate-fade-in">
           <StatsCard
             title="Applications Sent"
             value={stats.totalSent}
@@ -126,21 +126,21 @@ const Index = () => {
         </section>
 
         {/* Job Boards Table */}
-        <section className="space-y-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <section className="space-y-3 animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">Job Boards</h2>
-              <p className="text-sm text-muted-foreground font-normal">
-                Manage your applications across different platforms
+              <h2 className="text-xl font-semibold tracking-tight">Job Boards</h2>
+              <p className="text-sm text-muted-foreground">
+                Manage your applications across platforms
               </p>
             </div>
-            <Button variant="outline" className="gap-2 rounded-full border-border/50 hover:bg-accent transition-all shadow-sm">
+            <Button variant="outline" className="gap-2 rounded-lg border-border hover:bg-muted transition-all">
               <Plus className="h-4 w-4" />
               Add Platform
             </Button>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {jobSources.map((source, index) => (
               <div key={source.id} className="animate-fade-in" style={{ animationDelay: `${0.15 + index * 0.05}s` }}>
                 <JobSourceRow source={source} onUpdate={handleSourceUpdate} />
@@ -150,17 +150,17 @@ const Index = () => {
         </section>
 
         {/* Legend */}
-        <section className="flex items-center gap-6 text-sm text-muted-foreground border-t border-border/50 pt-6 font-normal">
+        <section className="flex items-center gap-6 text-sm text-muted-foreground border-t border-border pt-4">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-success shadow-sm" />
+            <div className="w-2.5 h-2.5 rounded-full bg-success" />
             <span>Sent</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-warning shadow-sm" />
+            <div className="w-2.5 h-2.5 rounded-full bg-warning" />
             <span>Waiting</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-destructive shadow-sm" />
+            <div className="w-2.5 h-2.5 rounded-full bg-destructive" />
             <span>Rejected</span>
           </div>
         </section>

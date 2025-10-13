@@ -8,56 +8,57 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 135 25% 96%;
+    --background: 0 0% 98%;
     --foreground: 0 0% 10%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 10%;
-    --primary: 160 40% 55%;
+    --primary: 0 0% 10%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 160 40% 65%;
-    --secondary: 50 60% 85%;
+    --primary-glow: 0 0% 20%;
+    --secondary: 220 10% 96%;
     --secondary-foreground: 0 0% 10%;
-    --muted: 210 10% 92%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 160 50% 90%;
+    --muted: 220 10% 95%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 220 10% 95%;
     --accent-foreground: 0 0% 10%;
-    --destructive: 0 50% 70%;
-    --destructive-foreground: 0 0% 100%;
-    --destructive-light: 0 50% 95%;
-    --border: 0 0% 90%;
-    --input: 0 0% 94%;
-    --ring: 160 40% 55%;
-    --success: 142 50% 60%;
-    --success-foreground: 0 0% 100%;
-    --success-light: 142 50% 92%;
-    --warning: 50 95% 65%;
-    --warning-foreground: 0 0% 20%;
-    --warning-light: 50 95% 88%;
-    --radius: 1.25rem;
+    --destructive: 0 70% 85%;
+    --destructive-foreground: 0 70% 30%;
+    --destructive-light: 0 70% 95%;
+    --border: 220 10% 92%;
+    --input: 220 10% 94%;
+    --ring: 0 0% 10%;
+    --success: 145 60% 85%;
+    --success-foreground: 145 60% 25%;
+    --success-light: 145 60% 95%;
+    --warning: 45 95% 85%;
+    --warning-foreground: 45 95% 30%;
+    --warning-light: 45 95% 93%;
+    --radius: 1rem;
     
-    /* Card backgrounds */
-    --card-stats: 210 30% 92%;
-    --card-success: 142 50% 92%;
-    --card-warning: 50 95% 88%;
-    --card-destructive: 0 50% 95%;
+    /* Card backgrounds - soft pastels */
+    --card-stats: 210 30% 97%;
+    --card-success: 145 60% 95%;
+    --card-warning: 45 95% 93%;
+    --card-destructive: 0 70% 95%;
     
-    /* Gradients - soft and subtle */
-    --gradient-primary: linear-gradient(135deg, hsl(160 40% 55%), hsl(180 40% 60%));
-    --gradient-success: linear-gradient(135deg, hsl(142 50% 92%), hsl(142 50% 88%));
-    --gradient-warning: linear-gradient(135deg, hsl(50 95% 88%), hsl(45 95% 85%));
-    --gradient-destructive: linear-gradient(135deg, hsl(0 50% 95%), hsl(0 50% 92%));
-    --gradient-background: linear-gradient(135deg, hsl(160 30% 95%), hsl(180 35% 92%));
+    /* Badges - pastel colors */
+    --badge-success: 145 60% 85%;
+    --badge-success-fg: 145 60% 25%;
+    --badge-warning: 45 95% 85%;
+    --badge-warning-fg: 45 95% 30%;
+    --badge-destructive: 0 70% 85%;
+    --badge-destructive-fg: 0 70% 30%;
     
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 10%;
-    --sidebar-primary: 160 40% 55%;
+    --sidebar-primary: 0 0% 10%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 160 50% 90%;
+    --sidebar-accent: 220 10% 95%;
     --sidebar-accent-foreground: 0 0% 10%;
-    --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 160 40% 55%;
+    --sidebar-border: 220 10% 92%;
+    --sidebar-ring: 0 0% 10%;
   }
 
   .dark {
@@ -67,48 +68,49 @@ All colors MUST be HSL.
     --card-foreground: 0 0% 95%;
     --popover: 0 0% 13%;
     --popover-foreground: 0 0% 95%;
-    --primary: 160 40% 55%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 160 40% 65%;
-    --secondary: 0 0% 20%;
+    --primary: 0 0% 95%;
+    --primary-foreground: 0 0% 10%;
+    --primary-glow: 0 0% 80%;
+    --secondary: 0 0% 18%;
     --secondary-foreground: 0 0% 95%;
-    --muted: 0 0% 20%;
+    --muted: 0 0% 18%;
     --muted-foreground: 0 0% 60%;
-    --accent: 0 0% 20%;
+    --accent: 0 0% 18%;
     --accent-foreground: 0 0% 95%;
-    --destructive: 0 50% 70%;
-    --destructive-foreground: 0 0% 100%;
-    --destructive-light: 0 50% 20%;
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 160 40% 55%;
-    --success: 142 50% 60%;
-    --success-foreground: 0 0% 100%;
-    --success-light: 142 50% 20%;
-    --warning: 50 95% 65%;
-    --warning-foreground: 0 0% 20%;
-    --warning-light: 50 95% 20%;
-    --radius: 1.25rem;
+    --destructive: 0 70% 85%;
+    --destructive-foreground: 0 70% 30%;
+    --destructive-light: 0 70% 20%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 0 0% 95%;
+    --success: 145 60% 85%;
+    --success-foreground: 145 60% 25%;
+    --success-light: 145 60% 20%;
+    --warning: 45 95% 85%;
+    --warning-foreground: 45 95% 30%;
+    --warning-light: 45 95% 20%;
+    --radius: 1rem;
     
     --card-stats: 0 0% 15%;
-    --card-success: 142 50% 20%;
-    --card-warning: 50 95% 20%;
-    --card-destructive: 0 50% 20%;
+    --card-success: 145 60% 20%;
+    --card-warning: 45 95% 20%;
+    --card-destructive: 0 70% 20%;
     
-    --gradient-primary: linear-gradient(135deg, hsl(160 40% 55%), hsl(180 40% 60%));
-    --gradient-success: linear-gradient(135deg, hsl(142 50% 20%), hsl(142 50% 18%));
-    --gradient-warning: linear-gradient(135deg, hsl(50 95% 20%), hsl(45 95% 18%));
-    --gradient-destructive: linear-gradient(135deg, hsl(0 50% 20%), hsl(0 50% 18%));
-    --gradient-background: linear-gradient(135deg, hsl(0 0% 10%), hsl(0 0% 12%));
+    --badge-success: 145 60% 30%;
+    --badge-success-fg: 145 60% 90%;
+    --badge-warning: 45 95% 30%;
+    --badge-warning-fg: 45 95% 90%;
+    --badge-destructive: 0 70% 30%;
+    --badge-destructive-fg: 0 70% 90%;
     
     --sidebar-background: 0 0% 13%;
     --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 160 40% 55%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 20%;
+    --sidebar-primary: 0 0% 95%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 0 0% 18%;
     --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 160 40% 55%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 0 0% 95%;
   }
 }
 
@@ -140,25 +142,5 @@ All colors MUST be HSL.
   
   .card-destructive {
     background: hsl(var(--card-destructive));
-  }
-  
-  .gradient-primary {
-    background: var(--gradient-primary);
-  }
-  
-  .gradient-success {
-    background: var(--gradient-success);
-  }
-  
-  .gradient-warning {
-    background: var(--gradient-warning);
-  }
-  
-  .gradient-destructive {
-    background: var(--gradient-destructive);
-  }
-  
-  .gradient-background {
-    background: var(--gradient-background);
   }
 }
