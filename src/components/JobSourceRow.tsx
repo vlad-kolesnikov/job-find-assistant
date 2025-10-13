@@ -33,7 +33,13 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
   };
 
   const handleOpen = () => {
-    const url = `${source.baseUrl}${source.filterQuery}`;
+    let url = source.baseUrl;
+    // Add protocol if not present
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url;
+    }
+    // Add filter query
+    url = url + source.filterQuery;
     window.open(url, '_blank');
     toast.success(`Opened ${source.name}`);
   };
