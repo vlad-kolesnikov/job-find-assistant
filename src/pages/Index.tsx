@@ -1,49 +1,33 @@
-import { useState, useEffect } from 'react';
-import { JobSource, ApplicationStats } from '@/types/job';
-import { storage } from '@/lib/storage';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { StatsCard } from '@/components/StatsCard';
 import { JobSourceRow } from '@/components/JobSourceRow';
 import { WeeklyProgress } from '@/components/WeeklyProgress';
 import { Button } from '@/components/ui/button';
-import { Send, Clock, XCircle, Briefcase, Plus } from 'lucide-react';
+import { Send, Clock, XCircle, Briefcase, Plus, LogOut } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAuth } from '@/hooks/useAuth';
+import { useJobSources } from '@/hooks/useJobSources';
 
 const Index = () => {
-  const [jobSources, setJobSources] = useState<JobSource[]>([]);
-  const [stats, setStats] = useState<ApplicationStats | null>(null);
+  const navigate = useNavigate();
+  const { user, loading: authLoading, signOut } = useAuth();
+  const { jobSources, stats, loading: dataLoading, updateJobSource } = useJobSources();
 
   useEffect(() => {
-    const sources = storage.getJobSources();
-    const appStats = storage.getAppStats();
-    setJobSources(sources);
-    setStats(appStats);
-  }, []);
-
-  useEffect(() => {
-    if (jobSources.length > 0) {
-      const totalSent = jobSources.reduce((sum, source) => sum + source.sentCount, 0);
-      const totalWaiting = jobSources.reduce((sum, source) => sum + source.waitingCount, 0);
-      const totalRejected = jobSources.reduce((sum, source) => sum + source.rejectedCount, 0);
-
-      const newStats: ApplicationStats = {
-        totalSent,
-        totalWaiting,
-        totalRejected,
-        weeklyGoal: stats?.weeklyGoal || 10,
-        lastUpdated: new Date(),
-      };
-
-      setStats(newStats);
-      storage.setAppStats(newStats);
+    if (!authLoading && !user) {
+      navigate('/auth');
     }
-  }, [jobSources]);
+  }, [user, authLoading, navigate]);
 
-  const handleSourceUpdate = (updatedSource: JobSource) => {
-    const newSources = jobSources.map((source) =>
-      source.id === updatedSource.id ? updatedSource : source
-    );
-    setJobSources(newSources);
-    storage.setJobSources(newSources);
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success('Logged out successfully');
+      navigate('/auth');
+    }
   };
 
   const handleExportCSV = () => {
@@ -71,12 +55,16 @@ const Index = () => {
     toast.success('CSV exported successfully');
   };
 
-  if (!stats) {
+  if (authLoading || dataLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-pulse text-muted-foreground">Loading...</div>
       </div>
     );
+  }
+
+  if (!stats) {
+    return null;
   }
 
   return (
@@ -94,9 +82,15 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground">Track your job applications</p>
               </div>
             </div>
-            <Button onClick={handleExportCSV} variant="outline" className="rounded-lg border-border hover:bg-muted transition-all">
-              Export CSV
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button onClick={handleExportCSV} variant="outline" className="rounded-lg border-border hover:bg-muted transition-all">
+                Export CSV
+              </Button>
+              <Button onClick={handleSignOut} variant="outline" className="rounded-lg border-border hover:bg-muted transition-all gap-2">
+                <LogOut className="h-4 w-4" />
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -143,9 +137,14 @@ const Index = () => {
           <div className="space-y-2">
             {jobSources.map((source, index) => (
               <div key={source.id} className="animate-fade-in" style={{ animationDelay: `${0.15 + index * 0.05}s` }}>
-                <JobSourceRow source={source} onUpdate={handleSourceUpdate} />
+                <JobSourceRow source={source} onUpdate={updateJobSource} />
               </div>
             ))}
+            {jobSources.length === 0 && (
+              <div className="text-center py-8 text-muted-foreground">
+                No job sources yet. Add your first platform to start tracking!
+              </div>
+            )}
           </div>
         </section>
 

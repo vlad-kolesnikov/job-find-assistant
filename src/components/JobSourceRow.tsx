@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { JobSource } from '@/types/job';
+import { JobSource } from '@/hooks/useJobSources';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
