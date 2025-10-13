@@ -43,10 +43,10 @@ export const JobSourceRow = ({ source, onUpdate }: JobSourceRowProps) => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 border border-border rounded-lg bg-card hover:shadow-md transition-all">
+    <div className="glass grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 rounded-xl hover:border-primary/30 transition-all duration-300 group">
       {/* Platform Name */}
       <div className="lg:col-span-2 flex items-center">
-        <h3 className="font-semibold text-lg">{source.name}</h3>
+        <h3 className="font-semibold text-lg tracking-tight">{source.name}</h3>
       </div>
 
       {/* Filter Query */}
@@ -56,22 +56,22 @@ export const JobSourceRow = ({ source, onUpdate }: JobSourceRowProps) => {
             <Input
               value={editedFilter}
               onChange={(e) => setEditedFilter(e.target.value)}
-              className="flex-1"
+              className="flex-1 glass border-border/50"
               placeholder="Filter query..."
             />
-            <Button size="icon" variant="ghost" onClick={handleSaveFilter}>
+            <Button size="icon" variant="ghost" onClick={handleSaveFilter} className="hover:bg-primary/10">
               <Check className="h-4 w-4" />
             </Button>
-            <Button size="icon" variant="ghost" onClick={() => setIsEditingFilter(false)}>
+            <Button size="icon" variant="ghost" onClick={() => setIsEditingFilter(false)} className="hover:bg-destructive/10">
               <X className="h-4 w-4" />
             </Button>
           </>
         ) : (
           <>
-            <span className="text-sm text-muted-foreground truncate flex-1">
+            <span className="text-sm text-muted-foreground truncate flex-1 font-light">
               {source.filterQuery || 'No filter set'}
             </span>
-            <Button size="icon" variant="ghost" onClick={() => setIsEditingFilter(true)}>
+            <Button size="icon" variant="ghost" onClick={() => setIsEditingFilter(true)} className="hover:bg-primary/10">
               <Edit2 className="h-4 w-4" />
             </Button>
           </>
@@ -80,30 +80,30 @@ export const JobSourceRow = ({ source, onUpdate }: JobSourceRowProps) => {
 
       {/* Actions */}
       <div className="lg:col-span-4 flex items-center gap-2 flex-wrap">
-        <Button size="sm" onClick={handleOpen} className="gap-1">
+        <Button size="sm" onClick={handleOpen} className="gap-1 glass border-primary/20 hover:bg-primary/20 transition-all">
           <ExternalLink className="h-4 w-4" />
           Open
         </Button>
 
         {/* Sent */}
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-muted-foreground text-center">Applications Sent</span>
-          <div className="flex items-center gap-1 bg-success-light rounded-lg px-2 py-1">
+          <span className="text-xs text-muted-foreground text-center font-light">Applications Sent</span>
+          <div className="flex items-center gap-1 glass rounded-lg px-2 py-1 border-success/20">
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-6 w-6 hover:bg-success/20"
               onClick={() => handleDecrement('sentCount')}
             >
               <Minus className="h-3 w-3" />
             </Button>
-            <Badge variant="success" className="min-w-[2rem] justify-center">
+            <Badge variant="success" className="min-w-[2rem] justify-center gradient-success font-medium">
               {source.sentCount}
             </Badge>
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-6 w-6 hover:bg-success/20"
               onClick={() => handleIncrement('sentCount')}
             >
               <Plus className="h-3 w-3" />
@@ -113,24 +113,24 @@ export const JobSourceRow = ({ source, onUpdate }: JobSourceRowProps) => {
 
         {/* Waiting */}
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-muted-foreground text-center">Waiting Response</span>
-          <div className="flex items-center gap-1 bg-warning-light rounded-lg px-2 py-1">
+          <span className="text-xs text-muted-foreground text-center font-light">Waiting Response</span>
+          <div className="flex items-center gap-1 glass rounded-lg px-2 py-1 border-warning/20">
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-6 w-6 hover:bg-warning/20"
               onClick={() => handleDecrement('waitingCount')}
             >
               <Minus className="h-3 w-3" />
             </Button>
-            <Badge variant="warning" className="min-w-[2rem] justify-center">
+            <Badge variant="warning" className="min-w-[2rem] justify-center gradient-warning font-medium">
               <Clock className="h-3 w-3 mr-1" />
               {source.waitingCount}
             </Badge>
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-6 w-6 hover:bg-warning/20"
               onClick={() => handleIncrement('waitingCount')}
             >
               <Plus className="h-3 w-3" />
@@ -140,23 +140,23 @@ export const JobSourceRow = ({ source, onUpdate }: JobSourceRowProps) => {
 
         {/* Rejected */}
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-muted-foreground text-center">Rejections</span>
-          <div className="flex items-center gap-1 bg-destructive-light rounded-lg px-2 py-1">
+          <span className="text-xs text-muted-foreground text-center font-light">Rejections</span>
+          <div className="flex items-center gap-1 glass rounded-lg px-2 py-1 border-destructive/20">
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-6 w-6 hover:bg-destructive/20"
               onClick={() => handleDecrement('rejectedCount')}
             >
               <Minus className="h-3 w-3" />
             </Button>
-            <Badge variant="destructive" className="min-w-[2rem] justify-center">
+            <Badge variant="destructive" className="min-w-[2rem] justify-center gradient-destructive font-medium">
               {source.rejectedCount}
             </Badge>
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-6 w-6 hover:bg-destructive/20"
               onClick={() => handleIncrement('rejectedCount')}
             >
               <Plus className="h-3 w-3" />
@@ -171,7 +171,7 @@ export const JobSourceRow = ({ source, onUpdate }: JobSourceRowProps) => {
           value={source.notes}
           onChange={(e) => handleNotesChange(e.target.value)}
           placeholder="Add notes..."
-          className="min-h-[2.5rem] resize-none"
+          className="min-h-[2.5rem] resize-none glass border-border/50 font-light"
         />
       </div>
     </div>

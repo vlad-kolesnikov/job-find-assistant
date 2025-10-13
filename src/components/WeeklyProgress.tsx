@@ -12,15 +12,17 @@ export const WeeklyProgress = ({ current, goal }: WeeklyProgressProps) => {
   const isComplete = current >= goal;
 
   return (
-    <Card className="transition-all hover:shadow-md">
+    <Card className="glass transition-all duration-300 hover:border-primary/30 group">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Weekly Goal</CardTitle>
-        <Target className={`h-5 w-5 ${isComplete ? 'text-success' : 'text-primary'}`} />
+        <CardTitle className="text-sm font-medium tracking-tight">Weekly Goal</CardTitle>
+        <div className={`p-2 rounded-lg ${isComplete ? 'gradient-success' : 'gradient-primary'}`}>
+          <Target className="h-4 w-4 text-background" />
+        </div>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex items-baseline justify-between">
-          <span className="text-3xl font-bold">{current}</span>
-          <span className="text-sm text-muted-foreground">/ {goal} applications</span>
+          <span className="text-3xl font-bold tracking-tight">{current}</span>
+          <span className="text-sm text-muted-foreground font-light">/ {goal} applications</span>
         </div>
         <Progress value={percentage} className="h-2" />
         {isComplete && (

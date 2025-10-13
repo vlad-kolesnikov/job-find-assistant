@@ -82,19 +82,19 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="glass border-b border-border sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <Briefcase className="h-6 w-6 text-primary" />
+              <div className="p-2 gradient-primary rounded-xl animate-glow">
+                <Briefcase className="h-6 w-6 text-background" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">Job Find Assistant</h1>
-                <p className="text-sm text-muted-foreground">Track your job applications efficiently</p>
+                <h1 className="text-2xl font-bold tracking-tight">Job Find Assistant</h1>
+                <p className="text-sm text-muted-foreground font-light">Track your job applications efficiently</p>
               </div>
             </div>
-            <Button onClick={handleExportCSV} variant="outline">
+            <Button onClick={handleExportCSV} variant="outline" className="glass border-border/50 hover:bg-primary/10 transition-all">
               Export CSV
             </Button>
           </div>
@@ -103,7 +103,7 @@ const Index = () => {
 
       <main className="container mx-auto px-4 py-8 space-y-8">
         {/* Stats Dashboard */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in">
           <StatsCard
             title="Applications Sent"
             value={stats.totalSent}
@@ -126,39 +126,41 @@ const Index = () => {
         </section>
 
         {/* Job Boards Table */}
-        <section className="space-y-4">
+        <section className="space-y-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold">Job Boards</h2>
-              <p className="text-sm text-muted-foreground">
+              <h2 className="text-2xl font-bold tracking-tight">Job Boards</h2>
+              <p className="text-sm text-muted-foreground font-light">
                 Manage your applications across different platforms
               </p>
             </div>
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2 glass border-border/50 hover:bg-primary/10 transition-all">
               <Plus className="h-4 w-4" />
               Add Platform
             </Button>
           </div>
 
           <div className="space-y-3">
-            {jobSources.map((source) => (
-              <JobSourceRow key={source.id} source={source} onUpdate={handleSourceUpdate} />
+            {jobSources.map((source, index) => (
+              <div key={source.id} className="animate-fade-in" style={{ animationDelay: `${0.15 + index * 0.05}s` }}>
+                <JobSourceRow source={source} onUpdate={handleSourceUpdate} />
+              </div>
             ))}
           </div>
         </section>
 
         {/* Legend */}
-        <section className="flex items-center gap-6 text-sm text-muted-foreground border-t pt-6">
+        <section className="flex items-center gap-6 text-sm text-muted-foreground border-t border-border/50 pt-6 font-light">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-success" />
+            <div className="w-3 h-3 rounded-full gradient-success" />
             <span>Sent</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-warning" />
+            <div className="w-3 h-3 rounded-full gradient-warning" />
             <span>Waiting</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-destructive" />
+            <div className="w-3 h-3 rounded-full gradient-destructive" />
             <span>Rejected</span>
           </div>
         </section>
