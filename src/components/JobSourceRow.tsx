@@ -23,6 +23,15 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
     filterQuery: source.filterQuery
   });
 
+  const handleOpenEditDialog = () => {
+    setEditedPlatform({
+      name: source.name,
+      baseUrl: source.baseUrl,
+      filterQuery: source.filterQuery
+    });
+    setShowEditDialog(true);
+  };
+
   const handleOpen = () => {
     const url = `${source.baseUrl}${source.filterQuery}`;
     window.open(url, '_blank');
@@ -91,7 +100,7 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
                 <span className="text-sm text-muted-foreground truncate flex-1">
                   {source.filterQuery || 'No filter'}
                 </span>
-                <Button size="icon" variant="ghost" onClick={() => setShowEditDialog(true)}>
+                <Button size="icon" variant="ghost" onClick={handleOpenEditDialog}>
                   <Edit2 className="h-4 w-4" />
                 </Button>
               </>
