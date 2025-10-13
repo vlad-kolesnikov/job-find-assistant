@@ -187,7 +187,7 @@ const Index = () => {
             ))}
             {jobSources.length === 0 && (
               <div className="text-center py-8 text-muted-foreground bg-card border border-border rounded-lg">
-                No job sources yet. Default platforms will appear after first login.
+                No job platforms yet.
               </div>
             )}
           </div>
