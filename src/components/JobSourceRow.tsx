@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { ExternalLink, Plus, Minus, Clock, Edit2, Check, X, Trash2 } from 'lucide-react';
+import { ExternalLink, Plus, Minus, Clock, Edit2, Check, X, Trash2, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface JobSourceRowProps {
@@ -73,6 +73,18 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
     });
     setShowEditDialog(false);
     toast.success('Platform updated');
+  };
+
+  const handleReset = () => {
+    if (confirm(`Reset all counters for ${source.name}?`)) {
+      onUpdate({ 
+        ...source, 
+        sentCount: 0,
+        waitingCount: 0,
+        rejectedCount: 0
+      });
+      toast.success('Counters reset');
+    }
   };
 
   return (
@@ -201,6 +213,16 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
               className="min-h-[2.5rem] text-sm"
             />
           </div>
+
+          {/* Reset Button */}
+          <Button
+            size="icon"
+            variant="ghost"
+            className="text-muted-foreground hover:text-foreground hover:bg-muted"
+            onClick={handleReset}
+          >
+            <RotateCcw className="h-4 w-4" />
+          </Button>
 
           {/* Delete Button */}
           <Button
