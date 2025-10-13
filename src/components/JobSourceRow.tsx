@@ -43,136 +43,130 @@ export const JobSourceRow = ({ source, onUpdate }: JobSourceRowProps) => {
   };
 
   return (
-    <div className="bg-card border border-border grid grid-cols-1 lg:grid-cols-12 gap-3 p-4 rounded-lg hover:shadow-sm transition-all duration-200">
-      {/* Platform Name */}
-      <div className="lg:col-span-2 flex items-center">
-        <h3 className="font-medium text-base">{source.name}</h3>
-      </div>
+    <div className="bg-card border border-border p-4 rounded-lg">
+      <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+        {/* Platform Name */}
+        <div className="lg:w-32">
+          <h3 className="font-semibold">{source.name}</h3>
+        </div>
 
-      {/* Filter Query */}
-      <div className="lg:col-span-3 flex items-center gap-2">
-        {isEditingFilter ? (
-          <>
-            <Input
-              value={editedFilter}
-              onChange={(e) => setEditedFilter(e.target.value)}
-              className="flex-1 border-border rounded-lg"
-              placeholder="Filter query..."
-            />
-            <Button size="icon" variant="ghost" onClick={handleSaveFilter} className="hover:bg-muted rounded-lg">
-              <Check className="h-4 w-4" />
-            </Button>
-            <Button size="icon" variant="ghost" onClick={() => setIsEditingFilter(false)} className="hover:bg-muted rounded-lg">
-              <X className="h-4 w-4" />
-            </Button>
-          </>
-        ) : (
-          <>
-            <span className="text-sm text-muted-foreground truncate flex-1">
-              {source.filterQuery || 'No filter set'}
-            </span>
-            <Button size="icon" variant="ghost" onClick={() => setIsEditingFilter(true)} className="hover:bg-muted rounded-lg">
-              <Edit2 className="h-4 w-4" />
-            </Button>
-          </>
-        )}
-      </div>
+        {/* Filter Query */}
+        <div className="flex-1 flex items-center gap-2">
+          {isEditingFilter ? (
+            <>
+              <Input
+                value={editedFilter}
+                onChange={(e) => setEditedFilter(e.target.value)}
+                className="flex-1"
+                placeholder="Filter query..."
+              />
+              <Button size="icon" variant="ghost" onClick={handleSaveFilter}>
+                <Check className="h-4 w-4" />
+              </Button>
+              <Button size="icon" variant="ghost" onClick={() => setIsEditingFilter(false)}>
+                <X className="h-4 w-4" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <span className="text-sm text-muted-foreground truncate flex-1">
+                {source.filterQuery || 'No filter'}
+              </span>
+              <Button size="icon" variant="ghost" onClick={() => setIsEditingFilter(true)}>
+                <Edit2 className="h-4 w-4" />
+              </Button>
+            </>
+          )}
+        </div>
 
-      {/* Actions */}
-      <div className="lg:col-span-4 flex items-center gap-2 flex-wrap">
-        <Button size="sm" onClick={handleOpen} className="gap-1 bg-primary hover:bg-primary/90 rounded-lg text-primary-foreground transition-all">
+        {/* Open Button */}
+        <Button size="sm" onClick={handleOpen} className="gap-1">
           <ExternalLink className="h-3.5 w-3.5" />
           Open
         </Button>
 
-        {/* Sent */}
-        <div className="flex flex-col gap-1">
-          <span className="text-xs text-muted-foreground text-center">Applications Sent</span>
-          <div className="flex items-center gap-1 card-success border border-success/30 rounded-lg px-2 py-1">
+        {/* Counters */}
+        <div className="flex items-center gap-3">
+          {/* Sent */}
+          <div className="flex items-center gap-1 px-2 py-1 bg-success/20 rounded">
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6 hover:bg-success/30 rounded"
+              className="h-6 w-6"
               onClick={() => handleDecrement('sentCount')}
             >
               <Minus className="h-3 w-3" />
             </Button>
-            <Badge variant="success" className="min-w-[2rem] justify-center font-medium bg-success text-success-foreground">
+            <span className="text-sm font-semibold text-success min-w-[2rem] text-center">
               {source.sentCount}
-            </Badge>
+            </span>
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6 hover:bg-success/30 rounded"
+              className="h-6 w-6"
               onClick={() => handleIncrement('sentCount')}
             >
               <Plus className="h-3 w-3" />
             </Button>
           </div>
-        </div>
 
-        {/* Waiting */}
-        <div className="flex flex-col gap-1">
-          <span className="text-xs text-muted-foreground text-center">Waiting Response</span>
-          <div className="flex items-center gap-1 card-warning border border-warning/30 rounded-lg px-2 py-1">
+          {/* Waiting */}
+          <div className="flex items-center gap-1 px-2 py-1 bg-warning/20 rounded">
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6 hover:bg-warning/30 rounded"
+              className="h-6 w-6"
               onClick={() => handleDecrement('waitingCount')}
             >
               <Minus className="h-3 w-3" />
             </Button>
-            <Badge variant="warning" className="min-w-[2rem] justify-center font-medium bg-warning text-warning-foreground">
-              <Clock className="h-3 w-3 mr-1" />
+            <span className="text-sm font-semibold text-warning min-w-[2rem] text-center flex items-center gap-1">
+              <Clock className="h-3 w-3" />
               {source.waitingCount}
-            </Badge>
+            </span>
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6 hover:bg-warning/30 rounded"
+              className="h-6 w-6"
               onClick={() => handleIncrement('waitingCount')}
             >
               <Plus className="h-3 w-3" />
             </Button>
           </div>
-        </div>
 
-        {/* Rejected */}
-        <div className="flex flex-col gap-1">
-          <span className="text-xs text-muted-foreground text-center">Rejections</span>
-          <div className="flex items-center gap-1 card-destructive border border-destructive/30 rounded-lg px-2 py-1">
+          {/* Rejected */}
+          <div className="flex items-center gap-1 px-2 py-1 bg-destructive/20 rounded">
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6 hover:bg-destructive/30 rounded"
+              className="h-6 w-6"
               onClick={() => handleDecrement('rejectedCount')}
             >
               <Minus className="h-3 w-3" />
             </Button>
-            <Badge variant="destructive" className="min-w-[2rem] justify-center font-medium bg-destructive text-destructive-foreground">
+            <span className="text-sm font-semibold text-destructive min-w-[2rem] text-center">
               {source.rejectedCount}
-            </Badge>
+            </span>
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6 hover:bg-destructive/30 rounded"
+              className="h-6 w-6"
               onClick={() => handleIncrement('rejectedCount')}
             >
               <Plus className="h-3 w-3" />
             </Button>
           </div>
         </div>
-      </div>
 
-      {/* Notes */}
-      <div className="lg:col-span-3">
-        <Textarea
-          value={source.notes}
-          onChange={(e) => handleNotesChange(e.target.value)}
-          placeholder="Add notes..."
-          className="min-h-[2.5rem] resize-none border-border rounded-lg"
-        />
+        {/* Notes */}
+        <div className="lg:w-48">
+          <Textarea
+            value={source.notes}
+            onChange={(e) => handleNotesChange(e.target.value)}
+            placeholder="Notes..."
+            className="min-h-[2.5rem] text-sm"
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { StatsCard } from '@/components/StatsCard';
-import { JobSourceRow } from '@/components/JobSourceRow';
-import { WeeklyProgress } from '@/components/WeeklyProgress';
 import { Button } from '@/components/ui/button';
-import { Send, Clock, XCircle, Briefcase, Plus, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { useJobSources } from '@/hooks/useJobSources';
+import { JobSourceRow } from '@/components/JobSourceRow';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -69,25 +67,17 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-card border-b border-border sticky top-0 z-10">
-        <div className="container mx-auto px-6 py-5">
+      {/* Simple Header */}
+      <header className="bg-card border-b border-border">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold">Job Application Tracker</h1>
             <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-primary rounded-xl">
-                <Briefcase className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-xl font-semibold tracking-tight">Job Find Assistant</h1>
-                <p className="text-sm text-muted-foreground">Track your job applications</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button onClick={handleExportCSV} variant="outline" className="rounded-lg border-border hover:bg-muted transition-all">
+              <Button onClick={handleExportCSV} variant="outline" size="sm">
                 Export CSV
               </Button>
-              <Button onClick={handleSignOut} variant="outline" className="rounded-lg border-border hover:bg-muted transition-all gap-2">
-                <LogOut className="h-4 w-4" />
+              <Button onClick={handleSignOut} variant="outline" size="sm">
+                <LogOut className="h-4 w-4 mr-2" />
                 Logout
               </Button>
             </div>
@@ -95,72 +85,44 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-6 py-6 space-y-6">
-        {/* Stats Dashboard */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 animate-fade-in">
-          <StatsCard
-            title="Applications Sent"
-            value={stats.totalSent}
-            icon={Send}
-            variant="success"
-          />
-          <StatsCard
-            title="Waiting Response"
-            value={stats.totalWaiting}
-            icon={Clock}
-            variant="warning"
-          />
-          <StatsCard
-            title="Rejections"
-            value={stats.totalRejected}
-            icon={XCircle}
-            variant="destructive"
-          />
-          <WeeklyProgress current={stats.totalSent} goal={stats.weeklyGoal} />
+      <main className="container mx-auto px-4 py-6 space-y-6">
+        {/* Compact Stats */}
+        <section className="bg-card border border-border rounded-lg p-4">
+          <div className="grid grid-cols-4 gap-4">
+            <div>
+              <div className="text-sm text-muted-foreground">Applications Sent</div>
+              <div className="text-2xl font-bold text-success">{stats.totalSent}</div>
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground">Waiting Response</div>
+              <div className="text-2xl font-bold text-warning">{stats.totalWaiting}</div>
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground">Rejections</div>
+              <div className="text-2xl font-bold text-destructive">{stats.totalRejected}</div>
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground">Weekly Goal</div>
+              <div className="text-2xl font-bold">{stats.totalSent} / {stats.weeklyGoal}</div>
+            </div>
+          </div>
         </section>
 
         {/* Job Boards Table */}
-        <section className="space-y-3 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-semibold tracking-tight">Job Boards</h2>
-              <p className="text-sm text-muted-foreground">
-                Manage your applications across platforms
-              </p>
-            </div>
-            <Button variant="outline" className="gap-2 rounded-lg border-border hover:bg-muted transition-all">
-              <Plus className="h-4 w-4" />
-              Add Platform
-            </Button>
+            <h2 className="text-xl font-semibold">Job Boards</h2>
           </div>
 
           <div className="space-y-2">
-            {jobSources.map((source, index) => (
-              <div key={source.id} className="animate-fade-in" style={{ animationDelay: `${0.15 + index * 0.05}s` }}>
-                <JobSourceRow source={source} onUpdate={updateJobSource} />
-              </div>
+            {jobSources.map((source) => (
+              <JobSourceRow key={source.id} source={source} onUpdate={updateJobSource} />
             ))}
             {jobSources.length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
-                No job sources yet. Add your first platform to start tracking!
+              <div className="text-center py-8 text-muted-foreground bg-card border border-border rounded-lg">
+                No job sources yet. Default platforms will appear after first login.
               </div>
             )}
-          </div>
-        </section>
-
-        {/* Legend */}
-        <section className="flex items-center gap-6 text-sm text-muted-foreground border-t border-border pt-4">
-          <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-success" />
-            <span>Sent</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-warning" />
-            <span>Waiting</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-destructive" />
-            <span>Rejected</span>
           </div>
         </section>
       </main>
