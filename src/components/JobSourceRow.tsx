@@ -89,72 +89,72 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
         {/* Counters */}
         <div className="flex items-center gap-3">
           {/* Sent */}
-          <div className="flex items-center gap-1 px-2 py-1 bg-success/20 rounded">
+          <div className="flex items-center gap-1 px-3 py-2 bg-success rounded-lg">
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-7 w-7 hover:bg-success-foreground/10 text-success-foreground"
               onClick={() => handleDecrement('sentCount')}
             >
-              <Minus className="h-3 w-3" />
+              <Minus className="h-4 w-4" />
             </Button>
-            <span className="text-sm font-semibold text-success min-w-[2rem] text-center">
+            <span className="text-base font-bold text-success-foreground min-w-[2rem] text-center">
               {source.sentCount}
             </span>
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-7 w-7 hover:bg-success-foreground/10 text-success-foreground"
               onClick={() => handleIncrement('sentCount')}
             >
-              <Plus className="h-3 w-3" />
+              <Plus className="h-4 w-4" />
             </Button>
           </div>
 
           {/* Waiting */}
-          <div className="flex items-center gap-1 px-2 py-1 bg-warning/20 rounded">
+          <div className="flex items-center gap-1 px-3 py-2 bg-warning rounded-lg">
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-7 w-7 hover:bg-warning-foreground/10 text-warning-foreground"
               onClick={() => handleDecrement('waitingCount')}
             >
-              <Minus className="h-3 w-3" />
+              <Minus className="h-4 w-4" />
             </Button>
-            <span className="text-sm font-semibold text-warning min-w-[2rem] text-center flex items-center gap-1">
-              <Clock className="h-3 w-3" />
+            <span className="text-base font-bold text-warning-foreground min-w-[2rem] text-center flex items-center gap-1">
+              <Clock className="h-4 w-4" />
               {source.waitingCount}
             </span>
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-7 w-7 hover:bg-warning-foreground/10 text-warning-foreground"
               onClick={() => handleIncrement('waitingCount')}
             >
-              <Plus className="h-3 w-3" />
+              <Plus className="h-4 w-4" />
             </Button>
           </div>
 
           {/* Rejected */}
-          <div className="flex items-center gap-1 px-2 py-1 bg-destructive/20 rounded">
+          <div className="flex items-center gap-1 px-3 py-2 bg-destructive rounded-lg">
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-7 w-7 hover:bg-destructive-foreground/10 text-destructive-foreground"
               onClick={() => handleDecrement('rejectedCount')}
             >
-              <Minus className="h-3 w-3" />
+              <Minus className="h-4 w-4" />
             </Button>
-            <span className="text-sm font-semibold text-destructive min-w-[2rem] text-center">
+            <span className="text-base font-bold text-destructive-foreground min-w-[2rem] text-center">
               {source.rejectedCount}
             </span>
             <Button
               size="icon"
               variant="ghost"
-              className="h-6 w-6"
+              className="h-7 w-7 hover:bg-destructive-foreground/10 text-destructive-foreground"
               onClick={() => handleIncrement('rejectedCount')}
             >
-              <Plus className="h-3 w-3" />
+              <Plus className="h-4 w-4" />
             </Button>
           </div>
         </div>
