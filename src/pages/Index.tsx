@@ -85,30 +85,9 @@ const Index = () => {
     }
   };
 
-  const handleExportCSV = () => {
-    const csvHeaders = ['Platform', 'Filter Query', 'Sent', 'Waiting', 'Rejected', 'Notes'];
-    const csvRows = jobSources.map((source) => [
-      source.name,
-      source.filterQuery,
-      source.sentCount,
-      source.waitingCount,
-      source.rejectedCount,
-      source.notes,
-    ]);
-
-    const csvContent = [
-      csvHeaders.join(','),
-      ...csvRows.map((row) => row.map((cell) => `"${cell}"`).join(',')),
-    ].join('\n');
-
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `job-applications-${new Date().toISOString().split('T')[0]}.csv`;
-    link.click();
-    toast.success('CSV exported successfully');
-  };
+  const displayName = user?.user_metadata?.full_name 
+    || user?.user_metadata?.name 
+    || (user?.email ? user.email.split('@')[0] : '');
 
   if (authLoading || dataLoading) {
     return (
@@ -130,9 +109,11 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold">Job Application Tracker</h1>
             <div className="flex items-center gap-3">
-              <Button onClick={handleExportCSV} variant="outline" size="sm">
-                Export CSV
-              </Button>
+              {displayName && (
+                <div className="text-sm text-muted-foreground">
+                  Signed in as <span className="font-medium text-foreground">{displayName}</span>
+                </div>
+              )}
               <Button onClick={handleSignOut} variant="outline" size="sm">
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
