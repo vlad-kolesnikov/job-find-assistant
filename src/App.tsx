@@ -25,7 +25,7 @@ const App = () => (
           <Route element={<MainLayout />}>
             <Route index element={<ApplicationTracker />} />
             <Route path="resume" element={<ResumeBuilder />} />
-            <Route path="agent" element={<Agent />} />
+            <Route path="interview-coach" element={<Agent />} />
             <Route path="mail-agent" element={<MailAgent />} />
             <Route path="calendar" element={<CalendarPage />} />
           </Route>

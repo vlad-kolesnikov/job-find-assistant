@@ -86,7 +86,7 @@ const MainLayout = () => {
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <Link to="/agent">
+                    <Link to="/interview-coach">
                       <Bot />
                       <span>Interview Coach</span>
                     </Link>
