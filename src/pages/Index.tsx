@@ -146,7 +146,7 @@ const Index = () => {
                   <SidebarMenuButton asChild isActive>
                     <a href="#dashboard">
                       <LayoutDashboard />
-                      <span>Dashboard</span>
+                      <span>Application Tracker</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -154,7 +154,7 @@ const Index = () => {
                   <SidebarMenuButton asChild>
                     <a href="#job-boards">
                       <ListTodo />
-                      <span>Job Boards</span>
+                      <span>Resume Builder</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -162,7 +162,7 @@ const Index = () => {
                   <SidebarMenuButton asChild>
                     <a href="#goals">
                       <Target />
-                      <span>Goals</span>
+                      <span>Agent</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
