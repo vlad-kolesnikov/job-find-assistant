@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { LogOut, Plus, Send, Clock, XCircle, Target, Edit2, Calendar, LayoutDashboard, ListTodo } from 'lucide-react';
+import { LogOut, Plus, Send, Clock, XCircle, Target, Edit2, Calendar, LayoutDashboard, FileText, Bot } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
@@ -144,7 +144,7 @@ const Index = () => {
               <SidebarMenu>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild isActive>
-                    <a href="#dashboard">
+                    <a href="#application-tracker">
                       <LayoutDashboard />
                       <span>Application Tracker</span>
                     </a>
@@ -152,16 +152,16 @@ const Index = () => {
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <a href="#job-boards">
-                      <ListTodo />
+                    <a href="#resume-builder">
+                      <FileText />
                       <span>Resume Builder</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <a href="#goals">
-                      <Target />
+                    <a href="#agent">
+                      <Bot />
                       <span>Agent</span>
                     </a>
                   </SidebarMenuButton>
@@ -273,10 +273,10 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Job Boards Table */}
-        <section id="job-boards" className="space-y-3">
+        {/* Application Tracker (Job Boards) */}
+        <section id="application-tracker" className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Job Boards</h2>
+            <h2 className="text-xl font-semibold">Application Tracker</h2>
             <Button onClick={() => setShowAddDialog(true)} size="sm">
               <Plus className="h-4 w-4 mr-2" />
               Add Platform
@@ -305,6 +305,30 @@ const Index = () => {
                 No job platforms yet.
               </div>
             )}
+          </div>
+        </section>
+
+        {/* Resume Builder (placeholder) */}
+        <section id="resume-builder" className="space-y-3">
+          <h2 className="text-xl font-semibold">Resume Builder</h2>
+          <div className="bg-card border border-border rounded-lg p-6 text-muted-foreground">
+            Coming soon: build and manage tailored resumes.
+          </div>
+        </section>
+
+        {/* Agent (placeholder) */}
+        <section id="agent" className="space-y-3">
+          <h2 className="text-xl font-semibold">Agent</h2>
+          <div className="bg-card border border-border rounded-lg p-6 text-muted-foreground">
+            Coming soon: automate job search tasks with an AI agent.
+          </div>
+        </section>
+
+        {/* Calendar (placeholder) */}
+        <section id="calendar" className="space-y-3">
+          <h2 className="text-xl font-semibold">Calendar</h2>
+          <div className="bg-card border border-border rounded-lg p-6 text-muted-foreground">
+            Coming soon: track interviews and deadlines on a calendar.
           </div>
         </section>
       </main>
