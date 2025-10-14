@@ -113,11 +113,6 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold">Job Application Tracker</h1>
             <div className="flex items-center gap-3">
-              {displayName && (
-                <div className="hidden sm:block text-sm text-muted-foreground">
-                  {displayName}
-                </div>
-              )}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-full">
