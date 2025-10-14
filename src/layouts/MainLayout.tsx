@@ -2,7 +2,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/hooks/useAuth';
-import { LogOut, LayoutDashboard, FileText, Bot, Calendar } from 'lucide-react';
+import { LogOut, LayoutDashboard, FileText, Bot, Calendar, Mail } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -88,7 +88,15 @@ const MainLayout = () => {
                   <SidebarMenuButton asChild>
                     <Link to="/agent">
                       <Bot />
-                      <span>Agent</span>
+                      <span>Interview Agent</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link to="/mail-agent">
+                      <Mail />
+                      <span>Mail Agent</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -131,4 +139,3 @@ const MainLayout = () => {
 };
 
 export default MainLayout;
-

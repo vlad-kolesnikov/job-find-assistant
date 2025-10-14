@@ -7,6 +7,7 @@ import MainLayout from "./layouts/MainLayout";
 import ApplicationTracker from "./pages/ApplicationTracker";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import Agent from "./pages/Agent";
+import MailAgent from "./pages/MailAgent";
 import CalendarPage from "./pages/CalendarPage";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -25,6 +26,7 @@ const App = () => (
             <Route index element={<ApplicationTracker />} />
             <Route path="resume" element={<ResumeBuilder />} />
             <Route path="agent" element={<Agent />} />
+            <Route path="mail-agent" element={<MailAgent />} />
             <Route path="calendar" element={<CalendarPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
