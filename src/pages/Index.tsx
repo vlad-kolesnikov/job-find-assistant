@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { LogOut, Plus, Send, Clock, XCircle, Target, Edit2, Calendar } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { useJobSources } from '@/hooks/useJobSources';
@@ -88,6 +90,8 @@ const Index = () => {
   const displayName = user?.user_metadata?.full_name 
     || user?.user_metadata?.name 
     || (user?.email ? user.email.split('@')[0] : '');
+  const avatarUrl = (user?.user_metadata?.avatar_url || user?.user_metadata?.picture) as string | undefined;
+  const initials = (displayName || user?.email || 'U').slice(0, 1).toUpperCase();
 
   if (authLoading || dataLoading) {
     return (
@@ -110,14 +114,35 @@ const Index = () => {
             <h1 className="text-2xl font-bold">Job Application Tracker</h1>
             <div className="flex items-center gap-3">
               {displayName && (
-                <div className="text-sm text-muted-foreground">
-                  Signed in as <span className="font-medium text-foreground">{displayName}</span>
+                <div className="hidden sm:block text-sm text-muted-foreground">
+                  {displayName}
                 </div>
               )}
-              <Button onClick={handleSignOut} variant="outline" size="sm">
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-full">
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage src={avatarUrl} alt={displayName || user?.email || 'User'} />
+                      <AvatarFallback>{initials}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{displayName || 'User'}</span>
+                      <span className="text-xs text-muted-foreground">{user?.email}</span>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem disabled>Profile</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
