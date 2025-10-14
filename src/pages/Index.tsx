@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { LogOut, Plus, Send, Clock, XCircle, Target, Edit2, Calendar } from 'lucide-react';
+import { LogOut, Plus, Send, Clock, XCircle, Target, Edit2, Calendar, LayoutDashboard, ListTodo } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
@@ -12,6 +12,23 @@ import { useJobSources } from '@/hooks/useJobSources';
 import { JobSourceRow } from '@/components/JobSourceRow';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInput,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -106,13 +123,72 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Simple Header */}
-      <header className="bg-card border-b border-border">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Job Application Tracker</h1>
-            <div className="flex items-center gap-3">
+    <SidebarProvider>
+      <Sidebar collapsible="icon">
+        <SidebarHeader>
+          <div className="flex items-center gap-3 px-1 py-1.5">
+            <Avatar className="h-8 w-8">
+              <AvatarImage src={avatarUrl} alt={displayName || user?.email || 'User'} />
+              <AvatarFallback>{initials}</AvatarFallback>
+            </Avatar>
+            <div className="min-w-0 group-data-[collapsible=icon]/sidebar:hidden">
+              <div className="truncate text-sm font-medium">{displayName || 'User'}</div>
+              <div className="truncate text-xs text-muted-foreground">{user?.email}</div>
+            </div>
+          </div>
+          <SidebarInput placeholder="Search" />
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Main</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive>
+                    <a href="#dashboard">
+                      <LayoutDashboard />
+                      <span>Dashboard</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <a href="#job-boards">
+                      <ListTodo />
+                      <span>Job Boards</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <a href="#goals">
+                      <Target />
+                      <span>Goals</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <a href="#calendar">
+                      <Calendar />
+                      <span>Calendar</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+        <SidebarFooter />
+        <SidebarRail />
+      </Sidebar>
+
+      <SidebarInset>
+        <header className="sticky top-0 z-10 bg-card border-b border-border">
+          <div className="flex h-14 items-center gap-2 px-4">
+            <SidebarTrigger />
+            <h1 className="text-lg font-semibold tracking-tight">Job Application Tracker</h1>
+            <div className="ml-auto flex items-center gap-3">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-full">
@@ -143,10 +219,9 @@ const Index = () => {
               </DropdownMenu>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <main className="container mx-auto px-4 py-6 space-y-6">
+        <main id="dashboard" className="container mx-auto px-4 py-6 space-y-6">
         {/* Colored Stats Cards */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {/* Applications Sent */}
@@ -224,7 +299,7 @@ const Index = () => {
         </section>
 
         {/* Job Boards Table */}
-        <section className="space-y-3">
+        <section id="job-boards" className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Job Boards</h2>
             <Button onClick={() => setShowAddDialog(true)} size="sm">
@@ -359,7 +434,8 @@ const Index = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 };
 
