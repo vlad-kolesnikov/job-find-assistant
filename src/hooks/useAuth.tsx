@@ -49,7 +49,12 @@ export const useAuth = () => {
   };
 
   const signOut = async () => {
+    // Try global sign-out first; if session missing, fall back to local
     const { error } = await supabase.auth.signOut();
+    if (error && /session missing|no current session/i.test(error.message)) {
+      const fallback = await supabase.auth.signOut({ scope: 'local' });
+      return { error: fallback.error };
+    }
     return { error };
   };
 
