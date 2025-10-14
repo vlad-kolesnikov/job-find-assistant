@@ -150,7 +150,7 @@ const Agent = () => {
       {/* Sessions sidebar */}
       <Card className="lg:col-span-3">
         <CardHeader>
-          <CardTitle>Interview Coach Agent</CardTitle>
+          <CardTitle>Interview Coach</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex gap-2">
