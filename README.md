@@ -42,7 +42,7 @@ As a user,
 I want to log in to the application using my email and password and Google OAuth provider),
 so that my progress and data — including applications, notes, and goals — are saved and available next time I log in.
 
-**TAcceptance Criteria**T
+**Acceptance Criteria**T
 
 The user can register using email and password.
 
