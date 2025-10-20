@@ -36,7 +36,7 @@ This project is built with:
 
 ## Feature 1: Authentication
 
-**User Story**T
+**User Story**
 
 When a new user visits the site, they’re greeted with a registration and login form.
 As a user,
