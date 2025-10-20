@@ -1,54 +1,23 @@
-# Welcome to your Lovable project
+## Job Find Assistant
+
+A personal AI-powered job search manager.
+
+Job Find Assistant helps you stay organized during your job hunt:
+
+🗂 Application Tracker – manage job applications across multiple platforms.
+
+🧾 Resume Builder – craft and refine your resume for each position.
+
+🤖 AI Interview Coach – practice and improve your interview skills via STAR presentation.
+
+📬 AI Mail Agent – monitor and analyze job responses.
+
+📅 Calendar – Track interviews.
+
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/1617063e-084e-4311-9537-ecd5be101cb4
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/1617063e-084e-4311-9537-ecd5be101cb4) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+**URL**: https://job-find-assistant.lovable.app
 
 ## What technologies are used for this project?
 
@@ -60,14 +29,28 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
+## What is the testing approach?
 
-Simply open [Lovable](https://lovable.dev/projects/1617063e-084e-4311-9537-ecd5be101cb4) and click on Share -> Publish.
+- UI/UX test using Playwright/Type Script
+- API testing using Playwright/Type Script
 
-## Can I connect a custom domain to my Lovable project?
+## Feature 1: Authentication
 
-Yes, you can!
+**User Story**T
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+As a user,
+I want to log in to the application using my email and password and Google OAuth provider),
+so that my progress and data — including applications, notes, and goals — are saved and available next time I log in.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+**TAcceptance Criteria**T
+
+The user can register using email and password.
+
+After registration user should login and see the management dashboard.
+
+An authenticated user can manage data on website:
+
+After logout, the user’s data remains stored.
+
+Unauthenticated users cannot access the dashboard.
+
