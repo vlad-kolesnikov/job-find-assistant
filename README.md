@@ -43,7 +43,7 @@ As a user,
 I want to log in to the application using my email and password and Google OAuth provider,
 so that my progress and data — including applications, notes, and goals — are saved and available next time I log in.
 
-**Acceptance Criteria**T
+**Acceptance Criteria**
 When a new user visits the site, they’re greeted with a registration and login form.
 
 The user can register using email and password.
