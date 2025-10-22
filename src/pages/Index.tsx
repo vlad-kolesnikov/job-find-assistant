@@ -213,7 +213,7 @@ const Index = () => {
             <div className="absolute top-6 right-6 p-3 bg-warning rounded-full">
               <Clock className="h-5 w-5 text-warning-foreground" />
             </div>
-            <div className="text-sm font-medium text-foreground mb-2">Waiting Response</div>
+            <div className="text-sm font-medium text-foreground mb-2">HR Contacted</div>
             <div className="text-4xl font-bold text-foreground">{stats.totalWaiting}</div>
           </div>
 
@@ -280,7 +280,7 @@ const Index = () => {
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm" className="gap-2 border-warning text-warning hover:bg-warning hover:text-warning-foreground">
                 <Clock className="h-4 w-4" />
-                Waiting: {stats.totalWaiting}
+                HR Contacted: {stats.totalWaiting}
               </Button>
               <Button variant="outline" size="sm" className="gap-2 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground">
                 <XCircle className="h-4 w-4" />
