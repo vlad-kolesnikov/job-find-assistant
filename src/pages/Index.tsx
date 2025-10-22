@@ -208,12 +208,12 @@ const Index = () => {
             <div className="text-4xl font-bold text-foreground">{stats.totalSent}</div>
           </div>
 
-          {/* Waiting Response */}
+          {/* HR Contacted */}
           <div className="bg-warning/30 border border-warning/40 rounded-2xl p-6 relative">
             <div className="absolute top-6 right-6 p-3 bg-warning rounded-full">
               <Clock className="h-5 w-5 text-warning-foreground" />
             </div>
-            <div className="text-sm font-medium text-foreground mb-2">Waiting Response</div>
+            <div className="text-sm font-medium text-foreground mb-2">HR Contacted</div>
             <div className="text-4xl font-bold text-foreground">{stats.totalWaiting}</div>
           </div>
 
@@ -277,7 +277,7 @@ const Index = () => {
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#F59E0B', color: '#000', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px' }}>
             <Clock style={{ width: '20px', height: '20px' }} />
-            <span>Waiting: {stats.totalWaiting}</span>
+            <span>HR Contacted: {stats.totalWaiting}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#EF4444', color: '#fff', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px' }}>
             <XCircle style={{ width: '20px', height: '20px' }} />
