@@ -8,11 +8,7 @@ export default defineConfig({
   expect: { timeout: 5_000 },
   fullyParallel: true,
   retries: isCI ? 2 : 0,
-  reporter: [
-    ['list'],
-    ['html', { open: 'never' }],
-    ...(isCI ? [['junit', { outputFile: 'playwright-junit.xml' }]] : []),
-  ],
+  reporter: (['list', 'html', ...(isCI ? [['junit', { outputFile: 'playwright-junit.xml' }]] : [])]) as any,
   use: {
     baseURL: isCI ? 'http://localhost:5174' : 'http://localhost:5174',
     trace: 'on-first-retry',
