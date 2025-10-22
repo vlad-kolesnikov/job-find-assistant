@@ -275,18 +275,18 @@ const Index = () => {
 
         {/* Application Tracker (Job Boards) */}
         <section id="application-tracker" className="space-y-3">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-blue-200 border-4 border-blue-600 p-4 rounded-lg">
-            <h2 className="text-2xl font-bold text-blue-900">Application Tracker</h2>
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-orange-500 text-black font-bold text-lg shadow-lg">
-                <Clock className="h-5 w-5" />
-                <span className="whitespace-nowrap">Waiting: {stats.totalWaiting}</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', backgroundColor: '#f0f0f0', borderRadius: '8px', marginBottom: '16px' }}>
+            <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>Application Tracker</h2>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', backgroundColor: '#F59E0B', color: '#000', borderRadius: '8px', fontWeight: 'bold' }}>
+                <Clock style={{ width: '20px', height: '20px' }} />
+                <span>Waiting: {stats.totalWaiting}</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-red-500 text-white font-bold text-lg shadow-lg">
-                <XCircle className="h-5 w-5" />
-                <span className="whitespace-nowrap">Rejections: {stats.totalRejected}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', backgroundColor: '#EF4444', color: '#fff', borderRadius: '8px', fontWeight: 'bold' }}>
+                <XCircle style={{ width: '20px', height: '20px' }} />
+                <span>Rejections: {stats.totalRejected}</span>
               </div>
-              <Button onClick={() => setShowAddDialog(true)} className="bg-black text-white font-bold">
+              <Button onClick={() => setShowAddDialog(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Platform
               </Button>
