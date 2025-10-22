@@ -28,7 +28,7 @@ export const useAuth = () => {
   }, []);
 
   const signUp = async (email: string, password: string) => {
-    const redirectUrl = `${window.location.origin}/`;
+    const redirectUrl = (import.meta as any).env?.VITE_AUTH_REDIRECT_URL || `${window.location.origin}/`;
     
     const { error } = await supabase.auth.signUp({
       email,
@@ -59,7 +59,7 @@ export const useAuth = () => {
   };
 
   const signInWithGoogle = async () => {
-    const redirectUrl = `${window.location.origin}/`;
+    const redirectUrl = (import.meta as any).env?.VITE_AUTH_REDIRECT_URL || `${window.location.origin}/`;
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
