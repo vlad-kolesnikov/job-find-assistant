@@ -126,33 +126,11 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
             <h3 className="font-semibold">{source.name}</h3>
           </div>
 
-          {/* Filter Query */}
-          <div className="flex-1 flex items-center gap-2">
-            {isEditingFilter ? (
-              <>
-                <Input
-                  value={editedFilter}
-                  onChange={(e) => setEditedFilter(e.target.value)}
-                  className="flex-1"
-                  placeholder="Filter query..."
-                />
-                <Button size="icon" variant="ghost" onClick={handleSaveFilter}>
-                  <Check className="h-4 w-4" />
-                </Button>
-                <Button size="icon" variant="ghost" onClick={() => setIsEditingFilter(false)}>
-                  <X className="h-4 w-4" />
-                </Button>
-              </>
-            ) : (
-              <>
-                <span className="text-sm text-muted-foreground truncate flex-1">
-                  {source.filterQuery || 'No filter'}
-                </span>
-                <Button size="icon" variant="ghost" onClick={handleOpenEditDialog}>
-                  <Edit2 className="h-4 w-4" />
-                </Button>
-              </>
-            )}
+          {/* Edit Button */}
+          <div className="flex items-center">
+            <Button size="icon" variant="ghost" onClick={handleOpenEditDialog}>
+              <Edit2 className="h-4 w-4" />
+            </Button>
           </div>
 
           {/* Open Button */}
