@@ -275,16 +275,16 @@ const Index = () => {
 
         {/* Application Tracker (Job Boards) */}
         <section id="application-tracker" className="space-y-3">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <h2 className="text-2xl font-bold">Application Tracker</h2>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Button variant="outline" size="sm" className="gap-2 border-warning text-warning hover:bg-warning hover:text-warning-foreground">
                 <Clock className="h-4 w-4" />
-                Waiting: {stats.totalWaiting}
+                <span className="whitespace-nowrap">Waiting: {stats.totalWaiting}</span>
               </Button>
               <Button variant="outline" size="sm" className="gap-2 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground">
                 <XCircle className="h-4 w-4" />
-                Rejections: {stats.totalRejected}
+                <span className="whitespace-nowrap">Rejections: {stats.totalRejected}</span>
               </Button>
               <Button onClick={() => setShowAddDialog(true)}>
                 <Plus className="h-4 w-4 mr-2" />
