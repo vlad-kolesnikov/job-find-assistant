@@ -14,6 +14,8 @@ Job Find Assistant helps you stay organized during your job hunt:
 
 📅 Calendar – Track interviews.
 
+![UI Screenshot](.public/images/Screenshot1.png)
+
 
 ## Project info
 
