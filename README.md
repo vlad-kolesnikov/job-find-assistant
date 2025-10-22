@@ -37,6 +37,8 @@ This project is built with:
 - UI/UX test using Playwright/Type Script
 - API testing using Playwright/Type Script
 
+  [Job Find Assistant - TESTING CASES & MATRIX](https://docs.google.com/spreadsheets/d/11CJbHixAb1pyXB66AH4vrA7k_XRA6bzxjVlgzS3nMx8/edit?gid=497719987#gid=497719987https://ссылка-на-таблицу)
+
 # 🔐 User Story: User Authentication & Registration
 
 ## User Story
