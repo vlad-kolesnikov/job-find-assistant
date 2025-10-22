@@ -197,6 +197,19 @@ const Index = () => {
         </header>
 
         <main id="dashboard" className="container mx-auto px-4 py-6 space-y-6">
+        
+        {/* Global Action Buttons */}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#F59E0B', color: '#000', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px' }}>
+            <Clock style={{ width: '20px', height: '20px' }} />
+            <span>Waiting: {stats.totalWaiting}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#EF4444', color: '#fff', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px' }}>
+            <XCircle style={{ width: '20px', height: '20px' }} />
+            <span>Rejections: {stats.totalRejected}</span>
+          </div>
+        </div>
+
         {/* Colored Stats Cards */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {/* Applications Sent */}
@@ -275,22 +288,12 @@ const Index = () => {
 
         {/* Application Tracker (Job Boards) */}
         <section id="application-tracker" className="space-y-3">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', backgroundColor: '#f0f0f0', borderRadius: '8px', marginBottom: '16px' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>Application Tracker</h2>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', backgroundColor: '#F59E0B', color: '#000', borderRadius: '8px', fontWeight: 'bold' }}>
-                <Clock style={{ width: '20px', height: '20px' }} />
-                <span>Waiting: {stats.totalWaiting}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', backgroundColor: '#EF4444', color: '#fff', borderRadius: '8px', fontWeight: 'bold' }}>
-                <XCircle style={{ width: '20px', height: '20px' }} />
-                <span>Rejections: {stats.totalRejected}</span>
-              </div>
-              <Button onClick={() => setShowAddDialog(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Platform
-              </Button>
-            </div>
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">Application Tracker</h2>
+            <Button onClick={() => setShowAddDialog(true)}>
+              <Plus className="h-4 w-4 mr-2" />
+              Add Platform
+            </Button>
           </div>
 
           <div className="space-y-2">
