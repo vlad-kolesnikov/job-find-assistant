@@ -122,8 +122,8 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
           </div>
 
           {/* Platform Name */}
-          <div className="lg:w-32">
-            <h3 className="font-semibold">{source.name}</h3>
+          <div className="lg:w-48">
+            <h3 className="font-semibold truncate">{source.name}</h3>
           </div>
 
           {/* Edit Button */}
