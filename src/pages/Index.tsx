@@ -275,18 +275,18 @@ const Index = () => {
 
         {/* Application Tracker (Job Boards) */}
         <section id="application-tracker" className="space-y-3">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <h2 className="text-2xl font-bold">Application Tracker</h2>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-blue-200 border-4 border-blue-600 p-4 rounded-lg">
+            <h2 className="text-2xl font-bold text-blue-900">Application Tracker</h2>
             <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-lg" style={{ backgroundColor: '#F59E0B', color: '#000' }}>
-                <Clock className="h-4 w-4" />
-                <span className="font-semibold whitespace-nowrap">Waiting: {stats.totalWaiting}</span>
+              <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-orange-500 text-black font-bold text-lg shadow-lg">
+                <Clock className="h-5 w-5" />
+                <span className="whitespace-nowrap">Waiting: {stats.totalWaiting}</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-lg" style={{ backgroundColor: '#EF4444', color: '#FFF' }}>
-                <XCircle className="h-4 w-4" />
-                <span className="font-semibold whitespace-nowrap">Rejections: {stats.totalRejected}</span>
+              <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-red-500 text-white font-bold text-lg shadow-lg">
+                <XCircle className="h-5 w-5" />
+                <span className="whitespace-nowrap">Rejections: {stats.totalRejected}</span>
               </div>
-              <Button onClick={() => setShowAddDialog(true)}>
+              <Button onClick={() => setShowAddDialog(true)} className="bg-black text-white font-bold">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Platform
               </Button>
