@@ -276,8 +276,8 @@ const Index = () => {
         {/* Application Tracker (Job Boards) */}
         <section id="application-tracker" className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Application Tracker</h2>
-            <Button onClick={() => setShowAddDialog(true)} size="sm">
+            <h2 className="text-2xl font-bold">Application Tracker</h2>
+            <Button onClick={() => setShowAddDialog(true)}>
               <Plus className="h-4 w-4 mr-2" />
               Add Platform
             </Button>
