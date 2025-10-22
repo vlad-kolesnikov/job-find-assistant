@@ -8,23 +8,38 @@ export default defineConfig({
   expect: { timeout: 5_000 },
   fullyParallel: true,
   retries: isCI ? 2 : 0,
-  reporter: [['list'], ...(isCI ? [['junit', { outputFile: 'playwright-junit.xml' }]] : [])],
+  reporter: [
+    ['list'],
+    ['html', { open: 'never' }],
+    ...(isCI ? [['junit', { outputFile: 'playwright-junit.xml' }]] : []),
+  ],
   use: {
     baseURL: isCI ? 'http://localhost:5174' : 'http://localhost:5174',
     trace: 'on-first-retry',
   },
   projects: [
+    // Auth setup project: signs in and saves storage state
+    {
+      name: 'setup',
+      testMatch: 'tests/auth.setup.ts',
+    },
+    // Authenticated Chromium: runs all app tests except unauth auth.spec
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+      },
+      testIgnore: 'tests/auth.spec.ts',
+      dependencies: ['setup'],
     },
+    // Unauthenticated Chromium: runs only the unauth redirect test
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: 'chromium-guest',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      testMatch: 'tests/auth.spec.ts',
     },
   ],
   webServer: {

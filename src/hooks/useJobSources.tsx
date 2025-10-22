@@ -93,7 +93,21 @@ export const useJobSources = () => {
     }
   };
 
+  // Compute totals helper to avoid stale state races
+  const computeTotals = (sources: JobSource[]) => ({
+    totalSent: sources.reduce((sum, s) => sum + s.sentCount, 0),
+    totalWaiting: sources.reduce((sum, s) => sum + s.waitingCount, 0),
+    totalRejected: sources.reduce((sum, s) => sum + s.rejectedCount, 0),
+  });
+
   const updateJobSource = async (source: JobSource) => {
+    // Optimistically update local state to avoid lost increments on rapid clicks
+    let nextSources: JobSource[] = [];
+    setJobSources((prev) => {
+      nextSources = prev.map((s) => (s.id === source.id ? source : s));
+      return nextSources;
+    });
+
     try {
       const { error } = await supabase
         .from('job_sources')
@@ -111,10 +125,14 @@ export const useJobSources = () => {
 
       if (error) throw error;
 
-      await fetchJobSources();
-      await updateStats();
+      // Update stats based on the optimistic state we just applied
+      const totals = computeTotals(nextSources);
+      await updateStats(totals);
     } catch (error: any) {
       toast.error(error.message);
+      // In case of error, refetch to realign local state with server
+      await fetchJobSources();
+      await fetchStats();
     }
   };
 
@@ -217,12 +235,14 @@ export const useJobSources = () => {
     }
   };
 
-  const updateStats = async () => {
+  const updateStats = async (
+    totals?: { totalSent: number; totalWaiting: number; totalRejected: number }
+  ) => {
     if (!user) return;
 
-    const totalSent = jobSources.reduce((sum, source) => sum + source.sentCount, 0);
-    const totalWaiting = jobSources.reduce((sum, source) => sum + source.waitingCount, 0);
-    const totalRejected = jobSources.reduce((sum, source) => sum + source.rejectedCount, 0);
+    // Use provided totals when available to avoid relying on possibly stale state
+    const { totalSent, totalWaiting, totalRejected } =
+      totals ?? computeTotals(jobSources);
 
     try {
       const { error } = await supabase

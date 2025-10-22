@@ -1,0 +1,14 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://localhost:5174",
+      "localStorage": [
+        {
+          "name": "sb-faayffveuimkhwhlwmqu-auth-token",
+          "value": "{\"access_token\":\"eyJhbGciOiJIUzI1NiIsImtpZCI6Ik5NUmQvVE03ZXo0UCtSbzEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2ZhYXlmZnZldWlta2h3aGx3bXF1LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiIzNjdlNTA5Ni1mYTkxLTQxNWItYThlYS1kNjNiNTY3ZGYxZGYiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYwNzMyNTQyLCJpYXQiOjE3NjA3Mjg5NDIsImVtYWlsIjoiY3liZXJhZGlfa0B5YWhvby5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsX3ZlcmlmaWVkIjp0cnVlfSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc2MDcyODk0Mn1dLCJzZXNzaW9uX2lkIjoiZDEwODQyZTYtZTM4Mi00ZjYxLWFmODgtZjk5NTU3YjMxMWRjIiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.DSw6mnrxlUYCRJmBud6R6vtJEBVjjc8IWB2mdkcTOyc\",\"token_type\":\"bearer\",\"expires_in\":3600,\"expires_at\":1760732542,\"refresh_token\":\"osc6ljso6tyn\",\"user\":{\"id\":\"367e5096-fa91-415b-a8ea-d63b567df1df\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"cyberadi_k@yahoo.com\",\"email_confirmed_at\":\"2025-10-17T18:43:07.162029Z\",\"phone\":\"\",\"confirmed_at\":\"2025-10-17T18:43:07.162029Z\",\"last_sign_in_at\":\"2025-10-17T19:22:22.096301306Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{\"email_verified\":true},\"identities\":[{\"identity_id\":\"a2deb3b6-3335-4b0e-bff8-bf0f03dd326e\",\"id\":\"367e5096-fa91-415b-a8ea-d63b567df1df\",\"user_id\":\"367e5096-fa91-415b-a8ea-d63b567df1df\",\"identity_data\":{\"email\":\"cyberadi_k@yahoo.com\",\"email_verified\":false,\"phone_verified\":false,\"sub\":\"367e5096-fa91-415b-a8ea-d63b567df1df\"},\"provider\":\"email\",\"last_sign_in_at\":\"2025-10-17T18:43:07.153404Z\",\"created_at\":\"2025-10-17T18:43:07.153471Z\",\"updated_at\":\"2025-10-17T18:43:07.153471Z\",\"email\":\"cyberadi_k@yahoo.com\"}],\"created_at\":\"2025-10-17T18:43:07.120968Z\",\"updated_at\":\"2025-10-17T19:22:22.100816Z\",\"is_anonymous\":false},\"weak_password\":null}"
+        }
+      ]
+    }
+  ]
+}
