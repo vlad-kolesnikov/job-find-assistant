@@ -208,12 +208,12 @@ const Index = () => {
             <div className="text-4xl font-bold text-foreground">{stats.totalSent}</div>
           </div>
 
-          {/* HR Contacted */}
+          {/* Waiting Response */}
           <div className="bg-warning/30 border border-warning/40 rounded-2xl p-6 relative">
             <div className="absolute top-6 right-6 p-3 bg-warning rounded-full">
               <Clock className="h-5 w-5 text-warning-foreground" />
             </div>
-            <div className="text-sm font-medium text-foreground mb-2">HR Contacted</div>
+            <div className="text-sm font-medium text-foreground mb-2">Waiting Response</div>
             <div className="text-4xl font-bold text-foreground">{stats.totalWaiting}</div>
           </div>
 
@@ -273,26 +273,24 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Global Action Buttons */}
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#F59E0B', color: '#000', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px' }}>
-            <Clock style={{ width: '20px', height: '20px' }} />
-            <span>HR Contacted: {stats.totalWaiting}</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#EF4444', color: '#fff', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px' }}>
-            <XCircle style={{ width: '20px', height: '20px' }} />
-            <span>Rejections: {stats.totalRejected}</span>
-          </div>
-        </div>
-
         {/* Application Tracker (Job Boards) */}
         <section id="application-tracker" className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">Application Tracker</h2>
-            <Button onClick={() => setShowAddDialog(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Platform
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" className="gap-2 border-warning text-warning hover:bg-warning hover:text-warning-foreground">
+                <Clock className="h-4 w-4" />
+                Waiting: {stats.totalWaiting}
+              </Button>
+              <Button variant="outline" size="sm" className="gap-2 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground">
+                <XCircle className="h-4 w-4" />
+                Rejections: {stats.totalRejected}
+              </Button>
+              <Button onClick={() => setShowAddDialog(true)}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Platform
+              </Button>
+            </div>
           </div>
 
           <div className="space-y-2">
