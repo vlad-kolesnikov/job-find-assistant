@@ -197,19 +197,6 @@ const Index = () => {
         </header>
 
         <main id="dashboard" className="container mx-auto px-4 py-6 space-y-6">
-        
-        {/* Global Action Buttons */}
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginBottom: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#F59E0B', color: '#000', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px' }}>
-            <Clock style={{ width: '20px', height: '20px' }} />
-            <span>Waiting: {stats.totalWaiting}</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#EF4444', color: '#fff', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px' }}>
-            <XCircle style={{ width: '20px', height: '20px' }} />
-            <span>Rejections: {stats.totalRejected}</span>
-          </div>
-        </div>
-
         {/* Colored Stats Cards */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {/* Applications Sent */}
@@ -285,6 +272,18 @@ const Index = () => {
             <div className="text-sm text-muted-foreground mt-1">/ {stats.monthlyGoal} applications</div>
           </div>
         </section>
+
+        {/* Global Action Buttons */}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#F59E0B', color: '#000', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px' }}>
+            <Clock style={{ width: '20px', height: '20px' }} />
+            <span>Waiting: {stats.totalWaiting}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#EF4444', color: '#fff', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px' }}>
+            <XCircle style={{ width: '20px', height: '20px' }} />
+            <span>Rejections: {stats.totalRejected}</span>
+          </div>
+        </div>
 
         {/* Application Tracker (Job Boards) */}
         <section id="application-tracker" className="space-y-3">
