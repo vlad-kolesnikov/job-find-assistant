@@ -277,31 +277,15 @@ const Index = () => {
         <section id="application-tracker" className="space-y-3">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <h2 className="text-2xl font-bold">Application Tracker</h2>
-            <div className="flex flex-wrap items-center gap-2">
-              <Button 
-                size="sm" 
-                className="gap-2"
-                style={{ 
-                  backgroundColor: 'hsl(45, 95%, 45%)', 
-                  color: 'hsl(45, 95%, 10%)',
-                  border: '1px solid hsl(45, 95%, 35%)'
-                }}
-              >
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-lg" style={{ backgroundColor: '#F59E0B', color: '#000' }}>
                 <Clock className="h-4 w-4" />
-                <span className="whitespace-nowrap">Waiting: {stats.totalWaiting}</span>
-              </Button>
-              <Button 
-                size="sm" 
-                className="gap-2"
-                style={{ 
-                  backgroundColor: 'hsl(0, 70%, 55%)', 
-                  color: 'white',
-                  border: '1px solid hsl(0, 70%, 45%)'
-                }}
-              >
+                <span className="font-semibold whitespace-nowrap">Waiting: {stats.totalWaiting}</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-lg" style={{ backgroundColor: '#EF4444', color: '#FFF' }}>
                 <XCircle className="h-4 w-4" />
-                <span className="whitespace-nowrap">Rejections: {stats.totalRejected}</span>
-              </Button>
+                <span className="font-semibold whitespace-nowrap">Rejections: {stats.totalRejected}</span>
+              </div>
               <Button onClick={() => setShowAddDialog(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Platform
