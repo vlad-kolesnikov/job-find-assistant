@@ -277,10 +277,20 @@ const Index = () => {
         <section id="application-tracker" className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">Application Tracker</h2>
-            <Button onClick={() => setShowAddDialog(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Platform
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" className="gap-2 border-warning text-warning hover:bg-warning hover:text-warning-foreground">
+                <Clock className="h-4 w-4" />
+                Waiting: {stats.totalWaiting}
+              </Button>
+              <Button variant="outline" size="sm" className="gap-2 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground">
+                <XCircle className="h-4 w-4" />
+                Rejections: {stats.totalRejected}
+              </Button>
+              <Button onClick={() => setShowAddDialog(true)}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Platform
+              </Button>
+            </div>
           </div>
 
           <div className="space-y-2">
