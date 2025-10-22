@@ -144,11 +144,12 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
 
           {/* Reset removed as requested */}
 
-          {/* Delete Button */}
+          {/* Delete Button (more visible) */}
           <Button
             size="icon"
-            variant="ghost"
-            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+            variant="destructive"
+            className="shadow-sm"
+            title={`Delete ${source.name}`}
             onClick={() => {
               if (confirm(`Are you sure you want to remove ${source.name}?`)) {
                 onDelete(source.id, source.name);

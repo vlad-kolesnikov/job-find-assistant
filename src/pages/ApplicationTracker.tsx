@@ -95,7 +95,7 @@ const ApplicationTracker = () => {
     <div className="space-y-6">
       {/* Colored Stats Cards */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        {/* Applications Sent */}
+        {/* Applied */}
         <div className="bg-success/30 border border-success/40 rounded-2xl p-6 relative">
           <div className="absolute top-6 right-6 flex items-center gap-1">
             <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-success/30" onClick={() => {
@@ -122,7 +122,7 @@ const ApplicationTracker = () => {
               <Plus className="h-4 w-4" />
             </Button>
           </div>
-          <div className="text-sm font-medium text-foreground mb-2">Applications Sent</div>
+          <div className="text-sm font-medium text-foreground mb-2">Applied</div>
           <div className="text-4xl font-bold text-foreground">{stats.totalSent}</div>
         </div>
 
