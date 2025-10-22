@@ -278,11 +278,27 @@ const Index = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <h2 className="text-2xl font-bold">Application Tracker</h2>
             <div className="flex flex-wrap items-center gap-2">
-              <Button size="sm" className="gap-2 bg-warning hover:bg-warning/80 text-warning-foreground">
+              <Button 
+                size="sm" 
+                className="gap-2"
+                style={{ 
+                  backgroundColor: 'hsl(45, 95%, 45%)', 
+                  color: 'hsl(45, 95%, 10%)',
+                  border: '1px solid hsl(45, 95%, 35%)'
+                }}
+              >
                 <Clock className="h-4 w-4" />
                 <span className="whitespace-nowrap">Waiting: {stats.totalWaiting}</span>
               </Button>
-              <Button size="sm" className="gap-2 bg-destructive hover:bg-destructive/80 text-destructive-foreground">
+              <Button 
+                size="sm" 
+                className="gap-2"
+                style={{ 
+                  backgroundColor: 'hsl(0, 70%, 55%)', 
+                  color: 'white',
+                  border: '1px solid hsl(0, 70%, 45%)'
+                }}
+              >
                 <XCircle className="h-4 w-4" />
                 <span className="whitespace-nowrap">Rejections: {stats.totalRejected}</span>
               </Button>
