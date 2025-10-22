@@ -141,7 +141,7 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
 
           {/* Counters */}
           <div className="flex items-center gap-3">
-            {/* Sent */}
+            {/* Applications Sent (only) */}
             <div className="flex items-center gap-1 px-3 py-2 bg-success rounded-lg">
               <Button
                 size="icon"
@@ -163,61 +163,6 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
                 className="h-7 w-7 hover:bg-success-foreground/10 text-success-foreground"
                 onClick={() => handleIncrement('sentCount')}
                 data-testid={`sent-inc-${source.id}`}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-
-            {/* Waiting */}
-            <div className="flex items-center gap-1 px-3 py-2 bg-warning rounded-lg">
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-7 w-7 hover:bg-warning-foreground/10 text-warning-foreground"
-                onClick={() => handleDecrement('waitingCount')}
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span
-                className="text-base font-bold text-warning-foreground min-w-[2rem] text-center flex items-center gap-1"
-                data-testid={`waiting-count-${source.id}`}
-              >
-                <Clock className="h-4 w-4" />
-                {source.waitingCount}
-              </span>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-7 w-7 hover:bg-warning-foreground/10 text-warning-foreground"
-                onClick={() => handleIncrement('waitingCount')}
-                data-testid={`waiting-inc-${source.id}`}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-
-            {/* Rejected */}
-            <div className="flex items-center gap-1 px-3 py-2 bg-destructive rounded-lg">
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-7 w-7 hover:bg-destructive-foreground/10 text-destructive-foreground"
-                onClick={() => handleDecrement('rejectedCount')}
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span
-                className="text-base font-bold text-destructive-foreground min-w-[2rem] text-center"
-                data-testid={`rejected-count-${source.id}`}
-              >
-                {source.rejectedCount}
-              </span>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-7 w-7 hover:bg-destructive-foreground/10 text-destructive-foreground"
-                onClick={() => handleIncrement('rejectedCount')}
-                data-testid={`rejected-inc-${source.id}`}
               >
                 <Plus className="h-4 w-4" />
               </Button>

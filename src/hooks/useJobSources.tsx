@@ -235,6 +235,47 @@ export const useJobSources = () => {
     }
   };
 
+  const adjustTotals = async (
+    deltaSent: number = 0,
+    deltaWaiting: number = 0,
+    deltaRejected: number = 0,
+  ) => {
+    if (!user) return;
+    if (!stats) {
+      await fetchStats();
+    }
+    const cur = stats || {
+      totalSent: 0,
+      totalWaiting: 0,
+      totalRejected: 0,
+      weeklyGoal: 0,
+      monthlyGoal: 0,
+      lastUpdated: new Date(),
+    };
+
+    const next = {
+      totalSent: Math.max(0, cur.totalSent + deltaSent),
+      totalWaiting: Math.max(0, cur.totalWaiting + deltaWaiting),
+      totalRejected: Math.max(0, cur.totalRejected + deltaRejected),
+    };
+
+    try {
+      const { error } = await supabase
+        .from('application_stats')
+        .update({
+          total_sent: next.totalSent,
+          total_waiting: next.totalWaiting,
+          total_rejected: next.totalRejected,
+          last_updated: new Date().toISOString(),
+        })
+        .eq('user_id', user.id);
+      if (error) throw error;
+      setStats((prev) => prev ? { ...prev, ...next, lastUpdated: new Date() } : null);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   const updateStats = async (
     totals?: { totalSent: number; totalWaiting: number; totalRejected: number }
   ) => {
@@ -318,5 +359,6 @@ export const useJobSources = () => {
     updateWeeklyGoal,
     updateMonthlyGoal,
     reorderJobSources,
+    adjustTotals,
   };
 };

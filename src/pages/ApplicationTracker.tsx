@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Send, Clock, XCircle, Target, Edit2, Calendar, Plus, Minus } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { useJobSources } from '@/hooks/useJobSources';
 import { JobSourceRow } from '@/components/JobSourceRow';
@@ -18,7 +17,6 @@ const ApplicationTracker = () => {
   const [newPlatform, setNewPlatform] = useState({ name: '', baseUrl: '', filterQuery: '' });
   const [newGoal, setNewGoal] = useState('');
   const [newMonthlyGoal, setNewMonthlyGoal] = useState('');
-  const [selectedSourceId, setSelectedSourceId] = useState<string | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -27,12 +25,6 @@ const ApplicationTracker = () => {
     })
   );
 
-  // Initialize selected source to the first item when list loads
-  useEffect(() => {
-    if (!selectedSourceId && jobSources.length > 0) {
-      setSelectedSourceId(jobSources[0].id);
-    }
-  }, [jobSources, selectedSourceId]);
 
   const handleAddPlatform = async () => {
     if (!newPlatform.name || !newPlatform.baseUrl) {
@@ -73,13 +65,8 @@ const ApplicationTracker = () => {
     }
   };
 
-  const updateCounter = (field: 'sentCount' | 'waitingCount' | 'rejectedCount', delta: 1 | -1) => {
-    if (!selectedSourceId) return;
-    const src = jobSources.find(s => s.id === selectedSourceId);
-    if (!src) return;
-    const nextVal = Math.max(0, (src as any)[field] + delta);
-    updateJobSource({ ...src, [field]: nextVal } as any);
-  };
+  // Adjust aggregated totals from cards (does not change per-source values)
+  const { adjustTotals } = useJobSources();
 
   if (dataLoading || !stats) {
     return (
@@ -104,8 +91,16 @@ const ApplicationTracker = () => {
 
         {/* HR Contacted */}
         <div className="bg-warning/30 border border-warning/40 rounded-2xl p-6 relative">
-          <div className="absolute top-6 right-6 p-3 bg-warning rounded-full">
-            <Clock className="h-5 w-5 text-warning-foreground" />
+          <div className="absolute top-6 right-6 flex items-center gap-1">
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-warning/30" onClick={() => adjustTotals(0, -1, 0)}>
+              <Minus className="h-4 w-4" />
+            </Button>
+            <div className="p-3 bg-warning rounded-full">
+              <Clock className="h-5 w-5 text-warning-foreground" />
+            </div>
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-warning/30" onClick={() => adjustTotals(0, +1, 0)}>
+              <Plus className="h-4 w-4" />
+            </Button>
           </div>
           <div className="text-sm font-medium text-foreground mb-2">HR Contacted</div>
           <div className="text-4xl font-bold text-foreground">{stats.totalWaiting}</div>
@@ -113,8 +108,16 @@ const ApplicationTracker = () => {
 
         {/* Rejections */}
         <div className="bg-destructive/30 border border-destructive/40 rounded-2xl p-6 relative">
-          <div className="absolute top-6 right-6 p-3 bg-destructive rounded-full">
-            <XCircle className="h-5 w-5 text-destructive-foreground" />
+          <div className="absolute top-6 right-6 flex items-center gap-1">
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-destructive/30" onClick={() => adjustTotals(0, 0, -1)}>
+              <Minus className="h-4 w-4" />
+            </Button>
+            <div className="p-3 bg-destructive rounded-full">
+              <XCircle className="h-5 w-5 text-destructive-foreground" />
+            </div>
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-destructive/30" onClick={() => adjustTotals(0, 0, +1)}>
+              <Plus className="h-4 w-4" />
+            </Button>
           </div>
           <div className="text-sm font-medium text-foreground mb-2">Rejections</div>
           <div className="text-4xl font-bold text-foreground">{stats.totalRejected}</div>
@@ -172,43 +175,6 @@ const ApplicationTracker = () => {
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <h2 className="text-xl font-semibold">Application Tracker</h2>
           <div className="flex items-center gap-2">
-            <Select value={selectedSourceId ?? undefined} onValueChange={(v) => setSelectedSourceId(v)}>
-              <SelectTrigger className="w-44">
-                <SelectValue placeholder="Select source" />
-              </SelectTrigger>
-              <SelectContent>
-                {jobSources.map((s) => (
-                  <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <div className="flex items-center gap-1 px-2 py-1 bg-success/20 rounded-md">
-              <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => updateCounter('sentCount', -1)}>
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span className="text-xs font-medium">Sent</span>
-              <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => updateCounter('sentCount', +1)}>
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex items-center gap-1 px-2 py-1 bg-warning/20 rounded-md">
-              <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => updateCounter('waitingCount', -1)}>
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span className="text-xs font-medium">HR</span>
-              <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => updateCounter('waitingCount', +1)}>
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex items-center gap-1 px-2 py-1 bg-destructive/20 rounded-md">
-              <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => updateCounter('rejectedCount', -1)}>
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span className="text-xs font-medium">Rejected</span>
-              <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => updateCounter('rejectedCount', +1)}>
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
             <Button onClick={() => setShowAddDialog(true)} size="sm">
               <Plus className="h-4 w-4 mr-2" />
               Add Platform
