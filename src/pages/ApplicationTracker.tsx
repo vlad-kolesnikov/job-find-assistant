@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -10,7 +10,7 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
 const ApplicationTracker = () => {
-  const { jobSources, stats, loading: dataLoading, updateJobSource, addJobSource, deleteJobSource, updateWeeklyGoal, updateMonthlyGoal, reorderJobSources } = useJobSources();
+  const { jobSources, stats, loading: dataLoading, updateJobSource, addJobSource, deleteJobSource, updateWeeklyGoal, updateMonthlyGoal , reorderJobSources, adjustTotals } = useJobSources();
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showGoalDialog, setShowGoalDialog] = useState(false);
   const [showMonthlyGoalDialog, setShowMonthlyGoalDialog] = useState(false);
@@ -64,9 +64,24 @@ const ApplicationTracker = () => {
       reorderJobSources(active.id as string, over.id as string);
     }
   };
+  // Adjust aggregated totals and keep first-source in sync
+  const adjustWaiting = (delta: 1 | -1) => {
+    adjustTotals(0, delta, 0);
+    if (jobSources.length) {
+      const s = jobSources[0];
+      const next = Math.max(0, s.waitingCount + delta);
+      if (next !== s.waitingCount) updateJobSource({ ...s, waitingCount: next });
+    }
+  };
 
-  // Adjust aggregated totals from cards (does not change per-source values)
-  const { adjustTotals } = useJobSources();
+  const adjustRejected = (delta: 1 | -1) => {
+    adjustTotals(0, 0, delta);
+    if (jobSources.length) {
+      const s = jobSources[0];
+      const next = Math.max(0, s.rejectedCount + delta);
+      if (next !== s.rejectedCount) updateJobSource({ ...s, rejectedCount: next });
+    }
+  };
 
   if (dataLoading || !stats) {
     return (
@@ -92,13 +107,13 @@ const ApplicationTracker = () => {
         {/* HR Contacted */}
         <div className="bg-warning/30 border border-warning/40 rounded-2xl p-6 relative">
           <div className="absolute top-6 right-6 flex items-center gap-1">
-            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-warning/30" onClick={() => adjustTotals(0, -1, 0)}>
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-warning/30" onClick={() => adjustWaiting(-1)}>
               <Minus className="h-4 w-4" />
             </Button>
             <div className="p-3 bg-warning rounded-full">
               <Clock className="h-5 w-5 text-warning-foreground" />
             </div>
-            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-warning/30" onClick={() => adjustTotals(0, +1, 0)}>
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-warning/30" onClick={() => adjustWaiting(1)}>
               <Plus className="h-4 w-4" />
             </Button>
           </div>
@@ -109,13 +124,13 @@ const ApplicationTracker = () => {
         {/* Rejections */}
         <div className="bg-destructive/30 border border-destructive/40 rounded-2xl p-6 relative">
           <div className="absolute top-6 right-6 flex items-center gap-1">
-            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-destructive/30" onClick={() => adjustTotals(0, 0, -1)}>
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-destructive/30" onClick={() => adjustRejected(-1)}>
               <Minus className="h-4 w-4" />
             </Button>
             <div className="p-3 bg-destructive rounded-full">
               <XCircle className="h-5 w-5 text-destructive-foreground" />
             </div>
-            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-destructive/30" onClick={() => adjustTotals(0, 0, +1)}>
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-destructive/30" onClick={() => adjustRejected(1)}>
               <Plus className="h-4 w-4" />
             </Button>
           </div>
@@ -291,3 +306,7 @@ const ApplicationTracker = () => {
 };
 
 export default ApplicationTracker;
+
+
+
+
