@@ -97,45 +97,33 @@ const ApplicationTracker = () => {
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         {/* Applications Sent */}
         <div className="bg-success/30 border border-success/40 rounded-2xl p-6 relative">
-          <div className="absolute top-6 right-6 p-3 bg-success rounded-full">
-            <Send className="h-5 w-5 text-success-foreground" />
+          <div className="absolute top-6 right-6 flex items-center gap-1">
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-success/30" onClick={() => {
+              adjustTotals(-1, 0, 0);
+              if (jobSources.length) {
+                const s = jobSources[0];
+                const next = Math.max(0, s.sentCount - 1);
+                if (next !== s.sentCount) updateJobSource({ ...s, sentCount: next });
+              }
+            }}>
+              <Minus className="h-4 w-4" />
+            </Button>
+            <div className="p-3 bg-success rounded-full">
+              <Send className="h-5 w-5 text-success-foreground" />
+            </div>
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-success/30" onClick={() => {
+              adjustTotals(1, 0, 0);
+              if (jobSources.length) {
+                const s = jobSources[0];
+                const next = s.sentCount + 1;
+                updateJobSource({ ...s, sentCount: next });
+              }
+            }}>
+              <Plus className="h-4 w-4" />
+            </Button>
           </div>
           <div className="text-sm font-medium text-foreground mb-2">Applications Sent</div>
           <div className="text-4xl font-bold text-foreground">{stats.totalSent}</div>
-        </div>
-
-        {/* HR Contacted */}
-        <div className="bg-warning/30 border border-warning/40 rounded-2xl p-6 relative">
-          <div className="absolute top-6 right-6 flex items-center gap-1">
-            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-warning/30" onClick={() => adjustWaiting(-1)}>
-              <Minus className="h-4 w-4" />
-            </Button>
-            <div className="p-3 bg-warning rounded-full">
-              <Clock className="h-5 w-5 text-warning-foreground" />
-            </div>
-            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-warning/30" onClick={() => adjustWaiting(1)}>
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
-          <div className="text-sm font-medium text-foreground mb-2">HR Contacted</div>
-          <div className="text-4xl font-bold text-foreground">{stats.totalWaiting}</div>
-        </div>
-
-        {/* Rejections */}
-        <div className="bg-destructive/30 border border-destructive/40 rounded-2xl p-6 relative">
-          <div className="absolute top-6 right-6 flex items-center gap-1">
-            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-destructive/30" onClick={() => adjustRejected(-1)}>
-              <Minus className="h-4 w-4" />
-            </Button>
-            <div className="p-3 bg-destructive rounded-full">
-              <XCircle className="h-5 w-5 text-destructive-foreground" />
-            </div>
-            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-destructive/30" onClick={() => adjustRejected(1)}>
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
-          <div className="text-sm font-medium text-foreground mb-2">Rejections</div>
-          <div className="text-4xl font-bold text-foreground">{stats.totalRejected}</div>
         </div>
 
         {/* Weekly Goal */}
@@ -183,18 +171,47 @@ const ApplicationTracker = () => {
           <div className="text-4xl font-bold text-foreground">{stats.totalSent}</div>
           <div className="text-sm text-muted-foreground mt-1">/ {stats.monthlyGoal} applications</div>
         </div>
+
+        {/* HR Contacted */}
+        <div className="bg-warning/30 border border-warning/40 rounded-2xl p-6 relative">
+          <div className="absolute top-6 right-6 flex items-center gap-1">
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-warning/30" onClick={() => adjustWaiting(-1)}>
+              <Minus className="h-4 w-4" />
+            </Button>
+            <div className="p-3 bg-warning rounded-full">
+              <Clock className="h-5 w-5 text-warning-foreground" />
+            </div>
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-warning/30" onClick={() => adjustWaiting(1)}>
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="text-sm font-medium text-foreground mb-2">HR Contacted</div>
+          <div className="text-4xl font-bold text-foreground">{stats.totalWaiting}</div>
+        </div>
+
+        {/* Rejections */}
+        <div className="bg-destructive/30 border border-destructive/40 rounded-2xl p-6 relative">
+          <div className="absolute top-6 right-6 flex items-center gap-1">
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-destructive/30" onClick={() => adjustRejected(-1)}>
+              <Minus className="h-4 w-4" />
+            </Button>
+            <div className="p-3 bg-destructive rounded-full">
+              <XCircle className="h-5 w-5 text-destructive-foreground" />
+            </div>
+            <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-destructive/30" onClick={() => adjustRejected(1)}>
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="text-sm font-medium text-foreground mb-2">Rejections</div>
+          <div className="text-4xl font-bold text-foreground">{stats.totalRejected}</div>
+        </div>
+
       </section>
 
       {/* Job Boards Table */}
       <section className="space-y-3">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <h2 className="text-xl font-semibold">Application Tracker</h2>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => setShowAddDialog(true)} size="sm">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Platform
-            </Button>
-          </div>
         </div>
 
         <div className="space-y-2">
@@ -210,6 +227,12 @@ const ApplicationTracker = () => {
               No job platforms yet.
             </div>
           )}
+          <div>
+            <Button onClick={() => setShowAddDialog(true)} size="sm">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Platform
+            </Button>
+          </div>
         </div>
       </section>
 

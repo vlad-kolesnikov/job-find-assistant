@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { JobSource } from '@/hooks/useJobSources';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { ExternalLink, Plus, Minus, Clock, Edit2, Check, X, Trash2, RotateCcw, GripVertical } from 'lucide-react';
+import { ExternalLink, Edit2, Check, X, Trash2, GripVertical } from 'lucide-react';
 import { toast } from 'sonner';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -139,55 +138,11 @@ export const JobSourceRow = ({ source, onUpdate, onDelete }: JobSourceRowProps) 
             Open
           </Button>
 
-          {/* Counters */}
-          <div className="flex items-center gap-3">
-            {/* Applications Sent (only) */}
-            <div className="flex items-center gap-1 px-3 py-2 bg-success rounded-lg">
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-7 w-7 hover:bg-success-foreground/10 text-success-foreground"
-                onClick={() => handleDecrement('sentCount')}
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span
-                className="text-base font-bold text-success-foreground min-w-[2rem] text-center"
-                data-testid={`sent-count-${source.id}`}
-              >
-                {source.sentCount}
-              </span>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-7 w-7 hover:bg-success-foreground/10 text-success-foreground"
-                onClick={() => handleIncrement('sentCount')}
-                data-testid={`sent-inc-${source.id}`}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+          {/* Per-row counters removed as requested */}
 
-          {/* Notes */}
-          <div className="lg:w-48">
-            <Textarea
-              value={source.notes}
-              onChange={(e) => handleNotesChange(e.target.value)}
-              placeholder="Notes..."
-              className="min-h-[2.5rem] text-sm"
-            />
-          </div>
+          {/* Notes removed as requested */}
 
-          {/* Reset Button */}
-          <Button
-            size="icon"
-            variant="ghost"
-            className="text-muted-foreground hover:text-foreground hover:bg-muted"
-            onClick={handleReset}
-          >
-            <RotateCcw className="h-4 w-4" />
-          </Button>
+          {/* Reset removed as requested */}
 
           {/* Delete Button */}
           <Button
