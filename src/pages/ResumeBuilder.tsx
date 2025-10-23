@@ -162,15 +162,8 @@ Skills:
   };
 
   return (
-    <div className="space-y-6 p-6">
-      <div>
-        <h2 className="text-2xl font-bold">ATS Keywords</h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          Optimize your resume for Applicant Tracking Systems
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="space-y-4 p-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Step 1: Upload Resume */}
         <Card>
           <CardHeader>
@@ -184,7 +177,7 @@ Skills:
               value={resumeContent}
               onChange={(e) => setResumeContent(e.target.value)}
               placeholder="Paste your resume content here..."
-              className="min-h-[300px]"
+              className="min-h-[200px] resize-y"
             />
             <label className="block">
               <Button variant="outline" className="w-full" asChild>
@@ -245,7 +238,7 @@ Skills:
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
               placeholder="Copy and paste job description here. Aim to exclude: Benefits, Perks, and Legal Disclaimers"
-              className="min-h-[400px]"
+              className="min-h-[200px] resize-y"
             />
           </CardContent>
         </Card>
@@ -265,7 +258,7 @@ Skills:
               value={result ? `Missing Keywords: ${result.missingKeywords.join(', ')}\n\nWeak Keywords: ${result.weakKeywords.join(', ')}\n\nPresent Keywords: ${result.presentKeywords.join(', ')}\n\nSummary: ${result.summary}` : ''}
               readOnly
               placeholder="Click 'AI Generate Keywords' to analyze your resume..."
-              className="min-h-[200px] pr-20"
+              className="min-h-[150px] resize-y pr-20"
             />
             {result && (
               <Button

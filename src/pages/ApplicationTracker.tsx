@@ -210,10 +210,6 @@ const ApplicationTracker = () => {
 
       {/* Job Boards Table */}
       <section className="space-y-3">
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <h2 className="text-xl font-semibold">Application Tracker</h2>
-        </div>
-
         <div className="space-y-2">
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={jobSources.map((s) => s.id)} strategy={verticalListSortingStrategy}>
