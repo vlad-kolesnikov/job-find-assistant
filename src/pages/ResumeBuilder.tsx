@@ -3,9 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Loader2, Upload, FileText, Sparkles } from 'lucide-react';
+import mammoth from 'mammoth';
+import * as pdfjsLib from 'pdfjs-dist';
+
+// Configure PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 interface ATSResult {
   missingKeywords: string[];
@@ -35,30 +41,37 @@ const ResumeBuilder = () => {
         reader.onload = (event) => {
           const text = event.target?.result as string;
           setResumeContent(text);
+          toast.success('File uploaded successfully');
           setLoading(false);
         };
         reader.readAsText(file);
-      } else if (file.name.match(/\.(pdf|docx?)$/i)) {
-        // For PDF and DOCX files, create a temporary file path
-        const tempPath = `user-uploads://${file.name}`;
+      } else if (file.name.match(/\.docx?$/i)) {
+        // Parse DOCX files
+        toast.info('Processing Word document...');
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await mammoth.extractRawText({ arrayBuffer });
+        setResumeContent(result.value);
+        toast.success('Word document processed successfully');
+        setLoading(false);
+      } else if (file.name.match(/\.pdf$/i)) {
+        // Parse PDF files
+        toast.info('Processing PDF document...');
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let fullText = '';
         
-        // Create a File object that can be uploaded
-        const formData = new FormData();
-        formData.append('file', file);
-        
-        toast.info('Processing document... This may take a moment.');
-        
-        // Note: This is a simplified version. In production, you'd upload to storage first
-        // For now, just read as text for DOCX or show error for PDF
-        if (file.name.match(/\.docx?$/i)) {
-          toast.error('Please copy the text content from your Word document and paste it above');
-          setUploadedFileName('');
-          setLoading(false);
-        } else {
-          toast.error('Please copy the text content from your PDF and paste it above');
-          setUploadedFileName('');
-          setLoading(false);
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          const pageText = textContent.items
+            .map((item: any) => item.str)
+            .join(' ');
+          fullText += pageText + '\n';
         }
+        
+        setResumeContent(fullText);
+        toast.success('PDF processed successfully');
+        setLoading(false);
       } else {
         toast.error('Unsupported file format. Please use TXT, PDF, or DOCX files');
         setUploadedFileName('');
@@ -66,7 +79,7 @@ const ResumeBuilder = () => {
       }
     } catch (error) {
       console.error('File upload error:', error);
-      toast.error('Failed to process file');
+      toast.error('Failed to process file. Please try copying the text manually.');
       setUploadedFileName('');
       setLoading(false);
     }
