@@ -163,6 +163,23 @@ Skills:
                 </Button>
               </div>
             )}
+            <Button
+              onClick={handleScan}
+              disabled={loading || !jobDescription.trim() || !resumeContent.trim()}
+              className="w-full"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Generate Keywords
+                </>
+              )}
+            </Button>
           </CardContent>
         </Card>
 
@@ -182,27 +199,6 @@ Skills:
         </Card>
       </div>
 
-      {/* Scan Button */}
-      <div className="flex justify-end">
-        <Button
-          onClick={handleScan}
-          disabled={loading || !jobDescription.trim() || !resumeContent.trim()}
-          size="lg"
-          className="min-w-[120px]"
-        >
-          {loading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Scanning...
-            </>
-          ) : (
-            <>
-              <Sparkles className="mr-2 h-4 w-4" />
-              Scan
-            </>
-          )}
-        </Button>
-      </div>
 
       {/* Results */}
       {result && (
