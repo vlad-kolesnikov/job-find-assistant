@@ -80,7 +80,7 @@ const MainLayout = () => {
                   <SidebarMenuButton asChild>
                     <Link to="/resume">
                       <FileText />
-                      <span>Resume Builder</span>
+                      <span>ATS Keywords</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

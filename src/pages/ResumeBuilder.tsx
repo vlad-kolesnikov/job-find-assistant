@@ -1,141 +1,311 @@
-import { useMemo, useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { buildResumePrompt } from '@/lib/promptTemplates';
+import { Badge } from '@/components/ui/badge';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Loader2, FileDown, ClipboardCopy, Wand2 } from 'lucide-react';
+import { Loader2, Upload, FileText, Sparkles } from 'lucide-react';
 
-const DEFAULT_ENDPOINT = '/api/gpt';
+interface ATSResult {
+  missingKeywords: string[];
+  weakKeywords: string[];
+  presentKeywords: string[];
+  summary: string;
+}
 
 const ResumeBuilder = () => {
   const [jobDescription, setJobDescription] = useState('');
-  const [userResume, setUserResume] = useState('');
-  const [result, setResult] = useState('');
+  const [resumeContent, setResumeContent] = useState('');
+  const [result, setResult] = useState<ATSResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const [uploadedFileName, setUploadedFileName] = useState('');
 
-  const endpoint = useMemo(() => import.meta.env.VITE_GPT_ENDPOINT || DEFAULT_ENDPOINT, []);
-  const prompt = useMemo(() => buildResumePrompt(jobDescription, userResume), [jobDescription, userResume]);
+  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-  const handleGenerate = async () => {
-    if (!jobDescription.trim() || !userResume.trim()) {
-      toast.error('Заполните описание вакансии и исходное резюме');
+    setUploadedFileName(file.name);
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result as string;
+      setResumeContent(text);
+    };
+    reader.readAsText(file);
+  }, []);
+
+  const handleRemoveFile = useCallback(() => {
+    setUploadedFileName('');
+    setResumeContent('');
+  }, []);
+
+  const handleScan = async () => {
+    if (!jobDescription.trim() || !resumeContent.trim()) {
+      toast.error('Please provide both job description and resume content');
       return;
     }
+
     setLoading(true);
-    setResult('');
+    setResult(null);
+
     try {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt }),
+      const { data, error } = await supabase.functions.invoke('ats-analyze', {
+        body: { jobDescription, resumeContent },
       });
-      if (!res.ok) {
-        throw new Error(`Request failed: ${res.status}`);
+
+      if (error) throw error;
+
+      if (data.error) {
+        toast.error(data.error);
+        return;
       }
-      const contentType = res.headers.get('content-type') || '';
-      let text = '';
-      if (contentType.includes('application/json')) {
-        const data = await res.json();
-        text = data.text || data.choices?.[0]?.message?.content || JSON.stringify(data, null, 2);
-      } else {
-        text = await res.text();
-      }
-      setResult(text);
-    } catch (e: any) {
-      console.error(e);
-      toast.error('Не удалось получить ответ от GPT API. Укажите рабочий endpoint в VITE_GPT_ENDPOINT.');
+
+      setResult(data);
+      toast.success('Analysis complete!');
+    } catch (error: any) {
+      console.error('ATS analysis error:', error);
+      toast.error('Failed to analyze resume. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCopy = async () => {
-    if (!result) return;
-    await navigator.clipboard.writeText(result);
-    toast.success('Скопировано в буфер обмена');
-  };
+  const handleViewSample = () => {
+    setJobDescription(`Senior QA Engineer
 
-  const handleDownload = () => {
-    if (!result) return;
-    const blob = new Blob([result], { type: 'text/markdown;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `adapted-resume-${new Date().toISOString().slice(0,10)}.md`;
-    a.click();
-    URL.revokeObjectURL(url);
+We are looking for an experienced Senior QA Engineer to join our team. The ideal candidate will have:
+
+Required Skills:
+- 5+ years of experience in software testing
+- Strong knowledge of automation testing frameworks (Selenium, Playwright, Cypress)
+- Experience with API testing (Postman, REST Assured)
+- Proficiency in programming languages (Java, Python, JavaScript)
+- Understanding of CI/CD pipelines (Jenkins, GitLab CI)
+- Experience with Agile/Scrum methodologies
+- Strong SQL and database testing skills
+
+Responsibilities:
+- Design and implement automated test frameworks
+- Perform manual and automated testing
+- Create and maintain test documentation
+- Collaborate with development teams
+- Mentor junior QA engineers`);
+
+    setResumeContent(`Vlad Kolesnikov
+Senior QA Engineer
+
+Experience:
+- 4 years of experience in software quality assurance
+- Worked with Selenium for test automation
+- Manual testing of web applications
+- Bug tracking using Jira
+- Basic knowledge of SQL
+
+Skills:
+- Testing web applications
+- Writing test cases
+- Bug reporting
+- Team collaboration`);
+
+    toast.info('Sample data loaded');
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold">Resume Builder</h2>
-        <p className="text-sm text-muted-foreground">Сгенерируйте адаптированное резюме на основе вакансии и вашего исходного резюме.</p>
+    <div className="space-y-6 p-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">New Scan</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Optimize your resume for Applicant Tracking Systems
+          </p>
+        </div>
+        <Button variant="outline" onClick={handleViewSample}>
+          View a Sample Scan
+        </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Step 1: Upload Resume */}
         <Card>
           <CardHeader>
-            <CardTitle>Описание вакансии</CardTitle>
-            <CardDescription>Вставьте полный текст вакансии</CardDescription>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5" />
+              Step 1: Upload a resume
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {uploadedFileName ? (
+              <div className="space-y-4">
+                <div className="text-center py-8">
+                  <p className="font-medium">{uploadedFileName}</p>
+                  <Button
+                    variant="link"
+                    onClick={handleRemoveFile}
+                    className="text-sm text-muted-foreground"
+                  >
+                    Remove selected file
+                  </Button>
+                </div>
+                <Textarea
+                  value={resumeContent}
+                  onChange={(e) => setResumeContent(e.target.value)}
+                  placeholder="Resume content will appear here..."
+                  className="min-h-[200px] font-mono text-sm"
+                />
+              </div>
+            ) : (
+              <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer hover:bg-accent/50 transition-colors">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <Upload className="h-10 w-10 mb-3 text-muted-foreground" />
+                  <p className="mb-2 text-sm text-muted-foreground">
+                    <span className="font-semibold">Drag & Drop or Upload</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    TXT, PDF, DOCX files supported
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  className="hidden"
+                  accept=".txt,.pdf,.doc,.docx"
+                  onChange={handleFileUpload}
+                />
+              </label>
+            )}
+            {!uploadedFileName && (
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">Or paste your resume here:</p>
+                <Textarea
+                  value={resumeContent}
+                  onChange={(e) => setResumeContent(e.target.value)}
+                  placeholder="Paste your resume content here..."
+                  className="min-h-[150px]"
+                />
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Step 2: Paste Job Description */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Step 2: Paste a job description</CardTitle>
           </CardHeader>
           <CardContent>
             <Textarea
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
-              placeholder="Вставьте описание вакансии…"
-              className="min-h-[260px]"
-            />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Исходное резюме</CardTitle>
-            <CardDescription>Вставьте актуальную версию вашего резюме</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Textarea
-              value={userResume}
-              onChange={(e) => setUserResume(e.target.value)}
-              placeholder="Вставьте исходное резюме…"
-              className="min-h-[260px]"
+              placeholder="Copy and paste job description here. Aim to exclude: Benefits, Perks, and Legal Disclaimers"
+              className="min-h-[400px]"
             />
           </CardContent>
         </Card>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <Button onClick={handleGenerate} disabled={loading}>
-          {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
-          {loading ? 'Генерация…' : 'Сгенерировать резюме'}
-        </Button>
-        <Separator orientation="vertical" className="h-6 hidden sm:block" />
-        <Button variant="outline" onClick={handleCopy} disabled={!result}>
-          <ClipboardCopy className="mr-2 h-4 w-4" />
-          Копировать Markdown
-        </Button>
-        <Button variant="outline" onClick={handleDownload} disabled={!result}>
-          <FileDown className="mr-2 h-4 w-4" />
-          Скачать .md
-        </Button>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Результат</CardTitle>
-          <CardDescription>Ответ GPT на основе промпта</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {result ? (
-            <pre className="whitespace-pre-wrap text-sm leading-6">{result}</pre>
+      {/* Scan Button */}
+      <div className="flex justify-end">
+        <Button
+          onClick={handleScan}
+          disabled={loading || !jobDescription.trim() || !resumeContent.trim()}
+          size="lg"
+          className="min-w-[120px]"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Scanning...
+            </>
           ) : (
-            <div className="text-sm text-muted-foreground">Здесь появится сгенерированный Markdown.</div>
+            <>
+              <Sparkles className="mr-2 h-4 w-4" />
+              Scan
+            </>
           )}
-        </CardContent>
-      </Card>
+        </Button>
+      </div>
+
+      {/* Results */}
+      {result && (
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Analysis Summary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm leading-relaxed">{result.summary}</p>
+            </CardContent>
+          </Card>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Missing Keywords</CardTitle>
+                <CardDescription>
+                  Add these to improve your ATS score
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  {result.missingKeywords.length > 0 ? (
+                    result.missingKeywords.map((keyword, idx) => (
+                      <Badge key={idx} variant="destructive">
+                        {keyword}
+                      </Badge>
+                    ))
+                  ) : (
+                    <p className="text-sm text-muted-foreground">None found</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Weak Keywords</CardTitle>
+                <CardDescription>
+                  Emphasize these more in your resume
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  {result.weakKeywords.length > 0 ? (
+                    result.weakKeywords.map((keyword, idx) => (
+                      <Badge key={idx} variant="secondary">
+                        {keyword}
+                      </Badge>
+                    ))
+                  ) : (
+                    <p className="text-sm text-muted-foreground">None found</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Present Keywords</CardTitle>
+                <CardDescription>
+                  These keywords are already in your resume
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  {result.presentKeywords.length > 0 ? (
+                    result.presentKeywords.map((keyword, idx) => (
+                      <Badge key={idx} variant="default" className="bg-green-600">
+                        {keyword}
+                      </Badge>
+                    ))
+                  ) : (
+                    <p className="text-sm text-muted-foreground">None found</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
