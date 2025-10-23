@@ -27,12 +27,20 @@ const ResumeBuilder = () => {
 
     setUploadedFileName(file.name);
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const text = event.target?.result as string;
-      setResumeContent(text);
-    };
-    reader.readAsText(file);
+    // Only accept .txt files for direct reading
+    if (file.name.endsWith('.txt')) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const text = event.target?.result as string;
+        setResumeContent(text);
+      };
+      reader.readAsText(file);
+    } else {
+      // For binary files like PDF, DOCX, inform user to paste text instead
+      toast.error('Please extract text from your document and paste it in the text area above');
+      setUploadedFileName('');
+      e.target.value = '';
+    }
   }, []);
 
   const handleRemoveFile = useCallback(() => {
@@ -114,7 +122,7 @@ Skills:
   return (
     <div className="space-y-6 p-6">
       <div>
-        <h2 className="text-2xl font-bold">New Scan</h2>
+        <h2 className="text-2xl font-bold">ATS Keywords</h2>
         <p className="text-sm text-muted-foreground mt-1">
           Optimize your resume for Applicant Tracking Systems
         </p>
@@ -146,7 +154,7 @@ Skills:
               <input
                 type="file"
                 className="hidden"
-                accept=".txt,.pdf,.doc,.docx"
+                accept=".txt"
                 onChange={handleFileUpload}
               />
             </label>
@@ -176,10 +184,35 @@ Skills:
               ) : (
                 <>
                   <Sparkles className="mr-2 h-4 w-4" />
-                  Generate Keywords
+                  AI Generate Keywords
                 </>
               )}
             </Button>
+            
+            {result && (
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Generated Output</label>
+                <div className="relative">
+                  <Textarea
+                    value={`Missing Keywords: ${result.missingKeywords.join(', ')}\n\nWeak Keywords: ${result.weakKeywords.join(', ')}\n\nPresent Keywords: ${result.presentKeywords.join(', ')}\n\nSummary: ${result.summary}`}
+                    readOnly
+                    className="min-h-[150px] pr-20"
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="absolute top-2 right-2"
+                    onClick={() => {
+                      navigator.clipboard.writeText(`Missing Keywords: ${result.missingKeywords.join(', ')}\n\nWeak Keywords: ${result.weakKeywords.join(', ')}\n\nPresent Keywords: ${result.presentKeywords.join(', ')}\n\nSummary: ${result.summary}`);
+                      toast.success('Copied to clipboard');
+                    }}
+                  >
+                    Copy
+                  </Button>
+                </div>
+              </div>
+            )}
+          
           </CardContent>
         </Card>
 
