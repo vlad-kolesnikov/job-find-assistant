@@ -113,16 +113,11 @@ Skills:
 
   return (
     <div className="space-y-6 p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">New Scan</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Optimize your resume for Applicant Tracking Systems
-          </p>
-        </div>
-        <Button variant="outline" onClick={handleViewSample}>
-          View a Sample Scan
-        </Button>
+      <div>
+        <h2 className="text-2xl font-bold">New Scan</h2>
+        <p className="text-sm text-muted-foreground mt-1">
+          Optimize your resume for Applicant Tracking Systems
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -135,53 +130,37 @@ Skills:
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {uploadedFileName ? (
-              <div className="space-y-4">
-                <div className="text-center py-8">
-                  <p className="font-medium">{uploadedFileName}</p>
-                  <Button
-                    variant="link"
-                    onClick={handleRemoveFile}
-                    className="text-sm text-muted-foreground"
-                  >
-                    Remove selected file
-                  </Button>
-                </div>
-                <Textarea
-                  value={resumeContent}
-                  onChange={(e) => setResumeContent(e.target.value)}
-                  placeholder="Resume content will appear here..."
-                  className="min-h-[200px] font-mono text-sm"
-                />
-              </div>
-            ) : (
-              <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer hover:bg-accent/50 transition-colors">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <Upload className="h-10 w-10 mb-3 text-muted-foreground" />
-                  <p className="mb-2 text-sm text-muted-foreground">
-                    <span className="font-semibold">Drag & Drop or Upload</span>
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    TXT, PDF, DOCX files supported
-                  </p>
-                </div>
-                <input
-                  type="file"
-                  className="hidden"
-                  accept=".txt,.pdf,.doc,.docx"
-                  onChange={handleFileUpload}
-                />
-              </label>
-            )}
-            {!uploadedFileName && (
-              <div>
-                <p className="text-sm text-muted-foreground mb-2">Or paste your resume here:</p>
-                <Textarea
-                  value={resumeContent}
-                  onChange={(e) => setResumeContent(e.target.value)}
-                  placeholder="Paste your resume content here..."
-                  className="min-h-[150px]"
-                />
+            <Textarea
+              value={resumeContent}
+              onChange={(e) => setResumeContent(e.target.value)}
+              placeholder="Paste your resume content here..."
+              className="min-h-[300px]"
+            />
+            <label className="block">
+              <Button variant="outline" className="w-full" asChild>
+                <span>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Upload Resume File
+                </span>
+              </Button>
+              <input
+                type="file"
+                className="hidden"
+                accept=".txt,.pdf,.doc,.docx"
+                onChange={handleFileUpload}
+              />
+            </label>
+            {uploadedFileName && (
+              <div className="flex items-center justify-between p-2 bg-accent rounded-md">
+                <p className="text-sm font-medium">{uploadedFileName}</p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleRemoveFile}
+                  className="text-xs"
+                >
+                  Remove
+                </Button>
               </div>
             )}
           </CardContent>
