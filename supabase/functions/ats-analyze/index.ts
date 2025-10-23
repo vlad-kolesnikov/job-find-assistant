@@ -26,24 +26,15 @@ serve(async (req) => {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    const prompt = `You are an expert ATS (Applicant Tracking System) optimization consultant and career advisor.
+    const prompt = `Analyze the job description and resume to optimize ATS compatibility.
 
-Your task is to analyze the job description and the candidate's resume to help optimize the resume for better ATS compatibility.
+Extract relevant keywords, skills, and requirements from the job description.
+Compare with the resume to identify:
+- Missing keywords that should be added
+- Weak keywords that need emphasis
+- Present keywords that are already included
 
-Follow these steps:
-1. Read the job description carefully and extract the most relevant keywords, skills, technical terms, and requirements that reflect what the employer is looking for.
-2. Analyze the resume content and identify which important terms or phrases are present.
-3. Compare the job requirements with the resume content to find missing or underrepresented keywords.
-4. Identify specific keywords, skills, and phrases that should be added or emphasized in the resume to improve ATS match score.
-5. Provide actionable recommendations for improving the resume's ATS compatibility.
-
-Return your analysis in the following JSON format (return ONLY valid JSON, no markdown):
-{
-  "missingKeywords": ["keyword1", "keyword2"],
-  "weakKeywords": ["keyword3", "keyword4"],
-  "presentKeywords": ["keyword5", "keyword6"],
-  "summary": "A concise explanation of how the resume can be improved"
-}
+Provide actionable recommendations for improving ATS match score.
 
 Job Description:
 ${jobDescription}
@@ -58,7 +49,7 @@ ${resumeContent}`;
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: 'openai/gpt-5',
         messages: [
           { role: 'system', content: 'You are an ATS optimization expert. Always respond with valid JSON only.' },
           { role: 'user', content: prompt }
