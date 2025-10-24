@@ -175,13 +175,13 @@ const MailAgent = () => {
         <CardHeader>
           <CardTitle>Mail Agent</CardTitle>
           <CardDescription>
-            Gmail Status: {connected ? <span className="text-green-600">connected</span> : <span className="text-red-600">not connected</span>}
+            Analyze and manage your job-related emails with AI assistance
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex gap-2">
             <Button onClick={connected ? refreshEmails : connectGmail} className="flex-1">
-              {connected ? (<><RefreshCw className="mr-2 h-4 w-4" /> Refresh emails</>) : (<><Mail className="mr-2 h-4 w-4" /> Connect Gmail</>)}
+              {connected ? (<><RefreshCw className="mr-2 h-4 w-4" /> Refresh emails</>) : (<><Mail className="mr-2 h-4 w-4" /> Check emails</>)}
             </Button>
           </div>
           <div className="flex items-center gap-2">
