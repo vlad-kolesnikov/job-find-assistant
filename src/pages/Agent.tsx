@@ -46,11 +46,11 @@ const Agent = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Ошибка сервера');
+        throw new Error(errorData.error || 'Server error');
       }
 
       if (!response.body) {
-        throw new Error('Нет данных от сервера');
+        throw new Error('No data from server');
       }
 
       const reader = response.body.getReader();
@@ -115,7 +115,7 @@ const Agent = () => {
         return;
       }
       console.error('Chat error:', error);
-      toast.error(error.message || 'Не удалось получить ответ');
+      toast.error(error.message || 'Failed to get response');
       setMessages(newMessages);
     } finally {
       setIsLoading(false);
@@ -132,7 +132,7 @@ const Agent = () => {
 
   const handleReset = () => {
     setMessages([]);
-    toast.success('Чат очищен');
+    toast.success('Chat cleared');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -158,7 +158,7 @@ const Agent = () => {
               disabled={messages.length === 0}
             >
               <Trash2 className="h-4 w-4 mr-2" />
-              Очистить
+              Clear
             </Button>
           </div>
         </CardHeader>
@@ -169,9 +169,9 @@ const Agent = () => {
               {messages.length === 0 && (
                 <div className="text-center text-muted-foreground py-12">
                   <Bot className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <h3 className="text-lg font-semibold mb-2">Начните подготовку к интервью</h3>
+                  <h3 className="text-lg font-semibold mb-2">Start Interview Preparation</h3>
                   <p className="text-sm max-w-md mx-auto">
-                    Расскажите о своём опыте в одной из компаний: название компании, роль и краткое описание обязанностей
+                    Tell about your experience in one of the companies: company name, role, and brief description of responsibilities
                   </p>
                 </div>
               )}
@@ -217,7 +217,7 @@ const Agent = () => {
                   <div className="bg-muted rounded-lg p-4">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <span className="inline-block size-2 rounded-full bg-muted-foreground/60 animate-pulse" />
-                      Думаю...
+                      Thinking...
                     </div>
                   </div>
                 </div>
@@ -233,7 +233,7 @@ const Agent = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Опишите ваш опыт работы или задайте вопрос..."
+                placeholder="Describe your work experience or ask a question..."
                 className="min-h-[60px] max-h-[200px] resize-none"
                 disabled={isLoading}
               />
@@ -250,7 +250,7 @@ const Agent = () => {
               </Button>
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              Нажмите Enter для отправки, Shift+Enter для новой строки
+              Press Enter to send, Shift+Enter for new line
             </p>
           </div>
         </CardContent>
