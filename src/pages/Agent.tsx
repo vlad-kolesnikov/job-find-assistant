@@ -152,7 +152,12 @@ const Agent = () => {
         <CardHeader className="border-b">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
-              <Bot className="h-6 w-6" />
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={coachAvatar} alt="Interview Coach" />
+                <AvatarFallback>
+                  <Bot className="h-4 w-4" />
+                </AvatarFallback>
+              </Avatar>
               Interview Coach
             </CardTitle>
             <Button
