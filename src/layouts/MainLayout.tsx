@@ -104,7 +104,7 @@ const MainLayout = () => {
                   <SidebarMenuButton asChild>
                     <Link to="/calendar">
                       <Calendar />
-                      <span>Calendar</span>
+                      <span>Interview Calendar</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
