@@ -249,34 +249,34 @@ const MailAgent = () => {
               </div>
               <div className="flex flex-wrap gap-2">
                 <Button onClick={()=>analyzeEmail(selected)} disabled={analysisLoading}>
-                  <Sparkles className="h-4 w-4 mr-2" />{analysisLoading?'Анализ…':'Анализ GPT'}
+                  <Sparkles className="h-4 w-4 mr-2" />{analysisLoading?'Analyzing...':'GPT Analysis'}
                 </Button>
                 <Button variant="outline" onClick={()=>openInGmailCompose(selected)}>
-                  <ExternalLink className="h-4 w-4 mr-2" />Открыть в Gmail
+                  <ExternalLink className="h-4 w-4 mr-2" />Open in Gmail
                 </Button>
                 <Button variant="outline" onClick={()=>copyDraft(selected)} disabled={!selected.analyzed?.draft_reply}>
-                  <ClipboardCopy className="h-4 w-4 mr-2" />Копировать ответ
+                  <ClipboardCopy className="h-4 w-4 mr-2" />Copy Reply
                 </Button>
               </div>
               <Separator />
               <div className="space-y-2">
-                <div className="font-medium">Ответ от GPT</div>
+                <div className="font-medium">GPT Response</div>
                 {selected.analyzed ? (
                   <div className="space-y-2">
                     <div className="flex gap-3 text-sm text-muted-foreground">
-                      <div>Тон: <span className="font-medium text-foreground">{selected.analyzed.tone}</span></div>
-                      <div>Приоритет: <span className="font-medium text-foreground">{selected.analyzed.priority}</span></div>
+                      <div>Tone: <span className="font-medium text-foreground">{selected.analyzed.tone}</span></div>
+                      <div>Priority: <span className="font-medium text-foreground">{selected.analyzed.priority}</span></div>
                     </div>
                     <div className="text-sm leading-6">{selected.analyzed.summary}</div>
                     <Textarea readOnly value={selected.analyzed.draft_reply} className="min-h-[180px]" />
                   </div>
                 ) : (
-                  <div className="text-sm text-muted-foreground">Нажмите “Анализ GPT”, чтобы получить резюме, тон, приоритет и черновик ответа.</div>
+                  <div className="text-sm text-muted-foreground">Click "GPT Analysis" to get summary, tone, priority and draft reply.</div>
                 )}
               </div>
             </>
           ) : (
-            <div className="text-sm text-muted-foreground">Выберите письмо слева, чтобы посмотреть детали.</div>
+            <div className="text-sm text-muted-foreground">Select an email from the left to view details.</div>
           )}
         </CardContent>
       </Card>
