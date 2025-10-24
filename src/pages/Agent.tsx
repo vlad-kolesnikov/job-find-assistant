@@ -3,9 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Send, Bot, User, Trash2, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
+import coachAvatar from '@/assets/coach-avatar.jpeg';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -31,13 +33,15 @@ const Agent = () => {
     abortControllerRef.current = new AbortController();
 
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/qa-coach`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            Authorization: `Bearer ${session?.access_token || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
           },
           body: JSON.stringify({ messages: newMessages }),
           signal: abortControllerRef.current.signal,
@@ -149,7 +153,7 @@ const Agent = () => {
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
               <Bot className="h-6 w-6" />
-              QA-тренажёр - Interview Coach
+              Interview Coach
             </CardTitle>
             <Button
               variant="outline"
@@ -184,13 +188,18 @@ const Agent = () => {
                   }`}
                 >
                   <Avatar className="h-8 w-8 mt-1 shrink-0">
-                    <AvatarFallback>
-                      {msg.role === 'user' ? (
+                    {msg.role === 'user' ? (
+                      <AvatarFallback>
                         <User className="h-4 w-4" />
-                      ) : (
-                        <Bot className="h-4 w-4" />
-                      )}
-                    </AvatarFallback>
+                      </AvatarFallback>
+                    ) : (
+                      <>
+                        <AvatarImage src={coachAvatar} alt="Interview Coach" />
+                        <AvatarFallback>
+                          <Bot className="h-4 w-4" />
+                        </AvatarFallback>
+                      </>
+                    )}
                   </Avatar>
                   
                   <div
