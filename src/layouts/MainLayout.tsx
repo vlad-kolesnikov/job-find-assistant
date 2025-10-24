@@ -96,7 +96,7 @@ const MainLayout = () => {
                   <SidebarMenuButton asChild>
                     <Link to="/mail-agent">
                       <Mail />
-                      <span>Mail Agent</span>
+                      <span>Jobs Mail Agent</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

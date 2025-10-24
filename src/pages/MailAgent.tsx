@@ -173,7 +173,7 @@ const MailAgent = () => {
       {/* Left: Filters */}
       <Card className="xl:col-span-3">
         <CardHeader>
-          <CardTitle>Mail Agent</CardTitle>
+          <CardTitle>Jobs Mail Agent</CardTitle>
           <CardDescription>
             Analyze and manage your job-related emails with AI assistance
           </CardDescription>
