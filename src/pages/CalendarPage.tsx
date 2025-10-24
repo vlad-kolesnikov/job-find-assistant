@@ -119,18 +119,18 @@ const CalendarPage = () => {
 
   const saveEvent = () => {
     if (!companyName || !date || !time) {
-      toast.error('Заполните Название компании, Дату и Время');
+      toast.error('Fill in Company Name, Date and Time');
       return;
     }
     const iso = new Date(`${date}T${time}:00`).toISOString();
     if (editing) {
       const updated: InterviewEvent = { ...editing, companyName, link, description, time: iso, status };
       setEvents((prev) => prev.map((e) => (e.id === editing.id ? updated : e)));
-      toast.success('Событие обновлено');
+      toast.success('Event updated');
     } else {
       const created: InterviewEvent = { id: uuid(), companyName, link, description, time: iso, status };
       setEvents((prev) => [...prev, created]);
-      toast.success('Событие добавлено');
+      toast.success('Event added');
     }
     setOpen(false);
   };
@@ -139,11 +139,11 @@ const CalendarPage = () => {
     if (!editing) return;
     setEvents((prev) => prev.filter((e) => e.id !== editing.id));
     setOpen(false);
-    toast.success('Событие удалено');
+    toast.success('Event deleted');
   };
 
   const syncWithGoogle = () => {
-    toast.info('Синхронизация с Google Calendar скоро будет доступна');
+    toast.info('Google Calendar sync will be available soon');
   };
 
   return (
@@ -151,20 +151,20 @@ const CalendarPage = () => {
       <div className="flex flex-wrap items-center gap-2 justify-between">
         <h2 className="text-xl font-semibold">Interview Calendar</h2>
         <div className="flex flex-wrap gap-2">
-          <Input placeholder="Поиск по компании" value={search} onChange={(e) => setSearch(e.target.value)} className="w-48" />
+          <Input placeholder="Search by company" value={search} onChange={(e) => setSearch(e.target.value)} className="w-48" />
           <Select value={filterStatus} onValueChange={(v: any) => setFilterStatus(v)}>
             <SelectTrigger className="w-40">
-              <SelectValue placeholder="Статус" />
+              <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Все</SelectItem>
-              <SelectItem value="upcoming">Предстоящее</SelectItem>
-              <SelectItem value="past">Прошло</SelectItem>
-              <SelectItem value="canceled">Отменено</SelectItem>
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="upcoming">Upcoming</SelectItem>
+              <SelectItem value="past">Past</SelectItem>
+              <SelectItem value="canceled">Canceled</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={() => openCreate()}>Добавить событие</Button>
-          <Button variant="outline" onClick={syncWithGoogle}>Синхронизировать с Google</Button>
+          <Button onClick={() => openCreate()}>Add Event</Button>
+          <Button variant="outline" onClick={syncWithGoogle}>Sync with Google</Button>
         </div>
       </div>
 
@@ -194,49 +194,49 @@ const CalendarPage = () => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{editing ? 'Редактировать событие' : 'Добавить событие'}</DialogTitle>
+            <DialogTitle>{editing ? 'Edit Event' : 'Add Event'}</DialogTitle>
           </DialogHeader>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 py-2">
             <div className="space-y-1">
-              <Label>Название компании</Label>
+              <Label>Company Name</Label>
               <Input value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
             </div>
             <div className="space-y-1">
-              <Label>Ссылка</Label>
+              <Label>Link</Label>
               <Input value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://..." />
             </div>
             <div className="space-y-1 md:col-span-2">
-              <Label>Описание</Label>
+              <Label>Description</Label>
               <Textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
             </div>
             <div className="space-y-1">
-              <Label>Дата</Label>
+              <Label>Date</Label>
               <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
             </div>
             <div className="space-y-1">
-              <Label>Время</Label>
+              <Label>Time</Label>
               <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
             </div>
             <div className="space-y-1">
-              <Label>Статус</Label>
+              <Label>Status</Label>
               <Select value={status} onValueChange={(v: any) => setStatus(v)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Статус" />
+                  <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="upcoming">Предстоящее</SelectItem>
-                  <SelectItem value="past">Прошло</SelectItem>
-                  <SelectItem value="canceled">Отменено</SelectItem>
+                  <SelectItem value="upcoming">Upcoming</SelectItem>
+                  <SelectItem value="past">Past</SelectItem>
+                  <SelectItem value="canceled">Canceled</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <DialogFooter>
             {editing && (
-              <Button variant="destructive" onClick={deleteEvent}>Удалить</Button>
+              <Button variant="destructive" onClick={deleteEvent}>Delete</Button>
             )}
-            <Button variant="outline" onClick={() => setOpen(false)}>Отмена</Button>
-            <Button onClick={saveEvent}>Сохранить</Button>
+            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={saveEvent}>Save</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

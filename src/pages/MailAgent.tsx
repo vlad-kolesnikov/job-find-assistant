@@ -119,9 +119,9 @@ const MailAgent = () => {
       const list: EmailItem[] = data.emails || [];
       setEmails(list);
       if (list.length) setSelectedId(list[0].id);
-      toast.success('Почта обновлена');
+      toast.success('Mail updated');
     } catch (e) {
-      toast.error('Не удалось загрузить письма. Проверьте бэкенд /api/gmail/emails');
+      toast.error('Failed to load emails. Check backend /api/gmail/emails');
     }
   };
 
@@ -146,9 +146,9 @@ const MailAgent = () => {
         processed: true,
       };
       setEmails((prev) => prev.map((e) => (e.id === email.id ? updated : e)));
-      toast.success('Анализ готов');
+      toast.success('Analysis complete');
     } catch (e) {
-      toast.error('Ошибка анализа письма. Проверьте /api/mail-agent-gpt');
+      toast.error('Email analysis error. Check /api/mail-agent-gpt');
     } finally {
       setAnalysisLoading(false);
     }
@@ -165,7 +165,7 @@ const MailAgent = () => {
   const copyDraft = async (email: EmailItem) => {
     if (!email.analyzed?.draft_reply) return;
     await navigator.clipboard.writeText(email.analyzed.draft_reply);
-    toast.success('Черновик скопирован');
+    toast.success('Draft copied');
   };
 
   return (
@@ -175,36 +175,36 @@ const MailAgent = () => {
         <CardHeader>
           <CardTitle>Mail Agent</CardTitle>
           <CardDescription>
-            Статус Gmail: {connected ? <span className="text-green-600">подключен</span> : <span className="text-red-600">не подключен</span>}
+            Gmail Status: {connected ? <span className="text-green-600">connected</span> : <span className="text-red-600">not connected</span>}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex gap-2">
             <Button onClick={connected ? refreshEmails : connectGmail} className="flex-1">
-              {connected ? (<><RefreshCw className="mr-2 h-4 w-4" /> Обновить письма</>) : (<><Mail className="mr-2 h-4 w-4" /> Подключить Gmail</>)}
+              {connected ? (<><RefreshCw className="mr-2 h-4 w-4" /> Refresh emails</>) : (<><Mail className="mr-2 h-4 w-4" /> Connect Gmail</>)}
             </Button>
           </div>
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-muted-foreground" />
-            <div className="text-sm">Фильтры</div>
+            <div className="text-sm">Filters</div>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <Button variant={filter==='all'?'default':'outline'} onClick={()=>setFilter('all')}>Все</Button>
-            <Button variant={filter==='important'?'default':'outline'} onClick={()=>setFilter('important')}>Важно</Button>
-            <Button variant={filter==='applications'?'default':'outline'} onClick={()=>setFilter('applications')}>Отклики</Button>
-            <Button variant={filter==='interviews'?'default':'outline'} onClick={()=>setFilter('interviews')}>Интервью</Button>
+            <Button variant={filter==='all'?'default':'outline'} onClick={()=>setFilter('all')}>All</Button>
+            <Button variant={filter==='important'?'default':'outline'} onClick={()=>setFilter('important')}>Important</Button>
+            <Button variant={filter==='applications'?'default':'outline'} onClick={()=>setFilter('applications')}>Applications</Button>
+            <Button variant={filter==='interviews'?'default':'outline'} onClick={()=>setFilter('interviews')}>Interviews</Button>
             <Button variant={filter==='followup'?'default':'outline'} onClick={()=>setFilter('followup')}>Follow‑up</Button>
             <Button variant={smartSort?'default':'outline'} onClick={()=>setSmartSort((v)=>!v)}>Smart Sort</Button>
           </div>
           <Separator />
-          <Input placeholder="Поиск по теме/отправителю" value={search} onChange={(e)=>setSearch(e.target.value)} />
+          <Input placeholder="Search by subject/sender" value={search} onChange={(e)=>setSearch(e.target.value)} />
         </CardContent>
       </Card>
 
       {/* Middle: list */}
       <Card className="xl:col-span-4 flex flex-col">
         <CardHeader>
-          <CardTitle>Входящие</CardTitle>
+          <CardTitle>Inbox</CardTitle>
         </CardHeader>
         <CardContent className="flex-1 p-0">
           <ScrollArea className="h-[70vh]">
@@ -219,12 +219,12 @@ const MailAgent = () => {
                   <div className="mt-1 text-sm truncate flex items-center gap-2">
                     {priorityBadge(e.analyzed?.priority)}
                     <span className="truncate">{e.preview}</span>
-                    {e.processed && <Badge variant="secondary">✅ Обработано</Badge>}
+                    {e.processed && <Badge variant="secondary">✅ Processed</Badge>}
                   </div>
                 </button>
               ))}
               {filteredList.length===0 && (
-                <div className="p-6 text-sm text-muted-foreground">Нет писем по текущим фильтрам</div>
+                <div className="p-6 text-sm text-muted-foreground">No emails for current filters</div>
               )}
             </div>
           </ScrollArea>
@@ -234,13 +234,13 @@ const MailAgent = () => {
       {/* Right: detail + GPT */}
       <Card className="xl:col-span-5">
         <CardHeader>
-          <CardTitle>Просмотр письма</CardTitle>
+          <CardTitle>Email Preview</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {selected ? (
             <>
               <div>
-                <div className="text-sm text-muted-foreground">От: {selected.sender}</div>
+                <div className="text-sm text-muted-foreground">From: {selected.sender}</div>
                 <div className="font-semibold text-lg">{selected.subject}</div>
                 <div className="text-sm text-muted-foreground">{new Date(selected.date).toLocaleString()}</div>
               </div>
