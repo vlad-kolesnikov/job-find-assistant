@@ -20,7 +20,7 @@ Job Find Assistant helps you stay organized during your job hunt:
 
 ## Project info
 
-**URL**: https://job-find-assistant.lovable.app
+**URL**: https://job-find-assistant.com
 
 ## What technologies are used for this project?
 
