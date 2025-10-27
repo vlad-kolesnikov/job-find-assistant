@@ -255,7 +255,7 @@ Skills:
         <CardContent>
           <div className="relative">
             <Textarea
-              value={result ? `Missing Keywords: ${result.missingKeywords.join(', ')}\n\nWeak Keywords: ${result.weakKeywords.join(', ')}\n\nPresent Keywords: ${result.presentKeywords.join(', ')}\n\nSummary: ${result.summary}` : ''}
+              value={result ? `Missing Keywords: ${result.missingKeywords?.join(', ') || 'None'}\n\nWeak Keywords: ${result.weakKeywords?.join(', ') || 'None'}\n\nPresent Keywords: ${result.presentKeywords?.join(', ') || 'None'}\n\nSummary: ${result.summary || 'No summary available'}` : ''}
               readOnly
               placeholder="Click 'AI Generate Keywords' to analyze your resume..."
               className="min-h-[150px] resize-y pr-20"
@@ -266,7 +266,7 @@ Skills:
                 size="sm"
                 className="absolute top-2 right-2"
                 onClick={() => {
-                  navigator.clipboard.writeText(`Missing Keywords: ${result.missingKeywords.join(', ')}\n\nWeak Keywords: ${result.weakKeywords.join(', ')}\n\nPresent Keywords: ${result.presentKeywords.join(', ')}\n\nSummary: ${result.summary}`);
+                  navigator.clipboard.writeText(`Missing Keywords: ${result.missingKeywords?.join(', ') || 'None'}\n\nWeak Keywords: ${result.weakKeywords?.join(', ') || 'None'}\n\nPresent Keywords: ${result.presentKeywords?.join(', ') || 'None'}\n\nSummary: ${result.summary || 'No summary available'}`);
                   toast.success('Copied to clipboard');
                 }}
               >
@@ -300,7 +300,7 @@ Skills:
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {result.missingKeywords.length > 0 ? (
+                  {result.missingKeywords && result.missingKeywords.length > 0 ? (
                     result.missingKeywords.map((keyword, idx) => (
                       <Badge key={idx} variant="destructive">
                         {keyword}
@@ -322,7 +322,7 @@ Skills:
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {result.weakKeywords.length > 0 ? (
+                  {result.weakKeywords && result.weakKeywords.length > 0 ? (
                     result.weakKeywords.map((keyword, idx) => (
                       <Badge key={idx} variant="secondary">
                         {keyword}
@@ -344,7 +344,7 @@ Skills:
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {result.presentKeywords.length > 0 ? (
+                  {result.presentKeywords && result.presentKeywords.length > 0 ? (
                     result.presentKeywords.map((keyword, idx) => (
                       <Badge key={idx} variant="default" className="bg-green-600">
                         {keyword}
